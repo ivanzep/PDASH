@@ -234,37 +234,63 @@
     margin-top: 2px;
   }
 
-  /* ---------- Stat tiles ---------- */
-  .stat-row {
+  /* ---------- Kanban-style counter cards ---------- */
+  .kanban-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 20px;
+    gap: 24px;
+    margin-bottom: 32px;
   }
-  .stat-tile {
+  .kanban-card {
+    position: relative;
+    z-index: 0;
     background: var(--surface-1);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
+    border-radius: 10px;
+    padding: 18px 18px 15px;
   }
-  .stat-tile .label {
-    font-size: 12px;
+  .kanban-card::before,
+  .kanban-card::after {
+    content: "";
+    position: absolute;
+    top: 6px; left: 6px; right: -6px; bottom: -6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    z-index: -1;
+  }
+  .kanban-card::after {
+    top: 12px; left: 12px; right: -12px; bottom: -12px;
+    opacity: 0.55;
+    z-index: -2;
+  }
+  .kanban-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 10px 10px 0 0;
+  }
+  .kanban-card .label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 8px;
+    margin: 4px 0 10px;
   }
-  .stat-tile .value {
+  .kanban-card .value {
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 1;
   }
-  .stat-tile .sub {
+  .kanban-card .sub {
     margin-top: 6px;
     font-size: 12px;
     color: var(--text-secondary);
   }
-  .stat-tile.accent-critical .value { color: var(--status-critical); }
-  .stat-tile.accent-warning .value { color: var(--status-warning); }
+  .kanban-card.accent-critical .value { color: var(--status-critical); }
+  .kanban-card.accent-warning .value { color: var(--status-warning); }
 
   /* ---------- Image carousel ---------- */
   .carousel-card { margin-bottom: 20px; padding: 16px; }
@@ -519,7 +545,7 @@
 
   @media (max-width: 880px) {
     .grid { grid-template-columns: 1fr; }
-    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .kanban-row { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
     .carousel-viewport { aspect-ratio: 16 / 9; }
   }
@@ -541,178 +567,6 @@
       <div>Sprint 14 of 20</div>
     </div>
   </header>
-
-  <!-- Image carousel -->
-  <div class="card carousel-card">
-    <div class="section-title">Project Snapshots <span class="count">5 images</span></div>
-    <div class="carousel" id="carousel">
-      <div class="carousel-viewport">
-        <div class="carousel-track" id="carouselTrack">
-
-          <div class="carousel-slide">
-            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <rect width="1200" height="465" fill="var(--surface-2)"/>
-              <rect width="1200" height="36" fill="var(--surface-1)"/>
-              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
-              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
-              <circle cx="160" cy="100" r="16" fill="var(--series-blue)"/>
-              <rect x="176" y="98" width="220" height="4" fill="var(--series-blue)"/>
-              <circle cx="420" cy="100" r="16" fill="var(--series-blue)"/>
-              <rect x="436" y="98" width="220" height="4" fill="var(--gridline)"/>
-              <circle cx="680" cy="100" r="16" fill="var(--surface-1)" stroke="var(--series-blue)" stroke-width="3"/>
-              <rect x="120" y="126" width="80" height="8" rx="4" fill="var(--text-muted)" opacity="0.5"/>
-              <rect x="380" y="126" width="80" height="8" rx="4" fill="var(--text-muted)" opacity="0.5"/>
-              <rect x="640" y="126" width="100" height="8" rx="4" fill="var(--series-blue)"/>
-              <rect x="120" y="170" width="960" height="240" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
-              <rect x="150" y="200" width="34" height="34" rx="8" fill="var(--series-aqua)"/>
-              <rect x="200" y="208" width="220" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
-              <rect x="200" y="222" width="140" height="7" rx="3" fill="var(--gridline)"/>
-              <rect x="960" y="208" width="60" height="20" rx="10" fill="var(--series-blue)"/>
-              <rect x="150" y="260" width="34" height="34" rx="8" fill="var(--series-violet)"/>
-              <rect x="200" y="268" width="260" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
-              <rect x="200" y="282" width="120" height="7" rx="3" fill="var(--gridline)"/>
-              <rect x="960" y="268" width="60" height="20" rx="10" fill="var(--gridline)"/>
-              <rect x="150" y="320" width="34" height="34" rx="8" fill="var(--series-orange)"/>
-              <rect x="200" y="328" width="200" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
-              <rect x="200" y="342" width="160" height="7" rx="3" fill="var(--gridline)"/>
-              <rect x="960" y="328" width="60" height="20" rx="10" fill="var(--gridline)"/>
-            </svg>
-            <div class="carousel-caption">
-              <div class="cc-title">Onboarding wizard — step 3</div>
-              <div class="cc-sub">Integrations screen, current build</div>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <rect width="1200" height="465" fill="var(--surface-2)"/>
-              <rect width="1200" height="36" fill="var(--surface-1)"/>
-              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
-              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
-              <rect x="120" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
-              <rect x="120" y="65" width="195" height="5" fill="var(--series-blue)"/>
-              <rect x="340" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
-              <rect x="340" y="65" width="195" height="5" fill="var(--series-aqua)"/>
-              <rect x="560" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
-              <rect x="560" y="65" width="195" height="5" fill="var(--series-yellow)"/>
-              <rect x="780" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
-              <rect x="780" y="65" width="195" height="5" fill="var(--series-violet)"/>
-              <rect x="120" y="180" width="855" height="230" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
-              <line x1="160" y1="380" x2="935" y2="380" stroke="var(--gridline)" stroke-width="2"/>
-              <rect x="180" y="300" width="46" height="80" rx="4" fill="var(--series-blue)"/>
-              <rect x="250" y="260" width="46" height="120" rx="4" fill="var(--series-blue)"/>
-              <rect x="320" y="330" width="46" height="50" rx="4" fill="var(--series-blue)"/>
-              <rect x="390" y="220" width="46" height="160" rx="4" fill="var(--series-blue)"/>
-              <rect x="460" y="280" width="46" height="100" rx="4" fill="var(--series-blue)"/>
-              <rect x="530" y="245" width="46" height="135" rx="4" fill="var(--series-blue)"/>
-              <rect x="600" y="300" width="46" height="80" rx="4" fill="var(--series-blue)"/>
-              <rect x="670" y="265" width="46" height="115" rx="4" fill="var(--series-blue)"/>
-              <rect x="740" y="235" width="46" height="145" rx="4" fill="var(--series-blue)"/>
-            </svg>
-            <div class="carousel-caption">
-              <div class="cc-title">Usage analytics dashboard</div>
-              <div class="cc-sub">Internal tool, weekly active accounts view</div>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <rect width="1200" height="465" fill="var(--surface-2)"/>
-              <rect width="1200" height="36" fill="var(--surface-1)"/>
-              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
-              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
-              <rect x="120" y="65" width="960" height="330" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
-              <rect x="150" y="90" width="900" height="30" rx="6" fill="var(--gridline)"/>
-              <g>
-                <circle cx="170" cy="150" r="14" fill="var(--series-blue)"/>
-                <rect x="200" y="144" width="180" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
-                <rect x="500" y="144" width="120" height="8" rx="4" fill="var(--gridline)"/>
-                <rect x="960" y="140" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
-              </g>
-              <g>
-                <circle cx="170" cy="200" r="14" fill="var(--series-aqua)"/>
-                <rect x="200" y="194" width="220" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
-                <rect x="500" y="194" width="120" height="8" rx="4" fill="var(--gridline)"/>
-                <rect x="960" y="190" width="70" height="18" rx="9" fill="var(--status-warning-bg)"/>
-              </g>
-              <g>
-                <circle cx="170" cy="250" r="14" fill="var(--series-violet)"/>
-                <rect x="200" y="244" width="160" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
-                <rect x="500" y="244" width="120" height="8" rx="4" fill="var(--gridline)"/>
-                <rect x="960" y="240" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
-              </g>
-              <g>
-                <circle cx="170" cy="300" r="14" fill="var(--series-orange)"/>
-                <rect x="200" y="294" width="200" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
-                <rect x="500" y="294" width="120" height="8" rx="4" fill="var(--gridline)"/>
-                <rect x="960" y="290" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
-              </g>
-              <g>
-                <circle cx="170" cy="350" r="14" fill="var(--series-magenta)"/>
-                <rect x="200" y="344" width="190" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
-                <rect x="500" y="344" width="120" height="8" rx="4" fill="var(--gridline)"/>
-                <rect x="960" y="340" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
-              </g>
-            </svg>
-            <div class="carousel-caption">
-              <div class="cc-title">Team accounts — member list</div>
-              <div class="cc-sub">Data model UI, early draft</div>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <rect width="1200" height="465" fill="var(--surface-2)"/>
-              <rect width="1200" height="36" fill="var(--surface-1)"/>
-              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
-              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
-              <circle cx="980" cy="230" r="170" fill="var(--series-blue)" opacity="0.16"/>
-              <circle cx="1040" cy="180" r="90" fill="var(--series-aqua)" opacity="0.20"/>
-              <rect x="150" y="150" width="420" height="26" rx="6" fill="var(--text-primary)" opacity="0.85"/>
-              <rect x="150" y="190" width="320" height="26" rx="6" fill="var(--text-primary)" opacity="0.85"/>
-              <rect x="150" y="240" width="380" height="10" rx="5" fill="var(--text-muted)" opacity="0.55"/>
-              <rect x="150" y="260" width="300" height="10" rx="5" fill="var(--text-muted)" opacity="0.55"/>
-              <rect x="150" y="300" width="150" height="42" rx="21" fill="var(--series-blue)"/>
-              <rect x="316" y="300" width="130" height="42" rx="21" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
-            </svg>
-            <div class="carousel-caption">
-              <div class="cc-title">Beta landing page</div>
-              <div class="cc-sub">Marketing site, signup hero draft</div>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <rect width="1200" height="465" fill="var(--surface-2)"/>
-              <rect x="430" y="35" width="180" height="395" rx="26" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="2"/>
-              <rect x="470" y="55" width="100" height="14" rx="7" fill="var(--gridline)"/>
-              <rect x="452" y="90" width="136" height="70" rx="8" fill="var(--series-blue)" opacity="0.85"/>
-              <rect x="452" y="172" width="136" height="10" rx="5" fill="var(--text-muted)" opacity="0.5"/>
-              <rect x="452" y="190" width="90" height="10" rx="5" fill="var(--gridline)"/>
-              <rect x="452" y="220" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
-              <rect x="452" y="276" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
-              <rect x="452" y="332" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
-              <rect x="590" y="35" width="180" height="395" rx="26" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="2"/>
-              <rect x="630" y="55" width="100" height="14" rx="7" fill="var(--gridline)"/>
-              <circle cx="680" cy="140" r="45" fill="var(--series-aqua)" opacity="0.85"/>
-              <rect x="612" y="210" width="136" height="10" rx="5" fill="var(--text-muted)" opacity="0.5"/>
-              <rect x="612" y="228" width="100" height="10" rx="5" fill="var(--gridline)"/>
-              <rect x="612" y="270" width="136" height="40" rx="20" fill="var(--series-blue)"/>
-              <rect x="612" y="322" width="136" height="40" rx="20" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
-            </svg>
-            <div class="carousel-caption">
-              <div class="cc-title">Mobile app screens</div>
-              <div class="cc-sub">Home + profile, design review pending</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <button class="carousel-btn prev" type="button" aria-label="Previous image" onclick="carouselMove(-1)">‹</button>
-      <button class="carousel-btn next" type="button" aria-label="Next image" onclick="carouselMove(1)">›</button>
-      <div class="carousel-dots" id="carouselDots"></div>
-    </div>
-  </div>
 
   <!-- Project path / direction -->
   <div class="card direction-card">
@@ -749,24 +603,28 @@
     </div>
   </div>
 
-  <!-- Stat tiles -->
-  <div class="stat-row">
-    <div class="stat-tile">
+  <!-- Kanban-style counter cards -->
+  <div class="kanban-row">
+    <div class="kanban-card">
+      <div class="kanban-top" style="background:var(--series-blue);"></div>
       <div class="label">In progress</div>
       <div class="value">7</div>
       <div class="sub">across 3 workstreams</div>
     </div>
-    <div class="stat-tile accent-critical">
+    <div class="kanban-card accent-critical">
+      <div class="kanban-top" style="background:var(--status-critical);"></div>
       <div class="label">High priority</div>
       <div class="value">3</div>
       <div class="sub">1 blocked</div>
     </div>
-    <div class="stat-tile accent-warning">
+    <div class="kanban-card accent-warning">
+      <div class="kanban-top" style="background:var(--status-warning);"></div>
       <div class="label">Things to watch</div>
       <div class="value">4</div>
       <div class="sub">2 trending worse</div>
     </div>
-    <div class="stat-tile">
+    <div class="kanban-card">
+      <div class="kanban-top" style="background:var(--series-violet);"></div>
       <div class="label">Next deadline</div>
       <div class="value">6d</div>
       <div class="sub">Beta invite list — Jul 9</div>
@@ -1028,6 +886,178 @@
         </a>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Image carousel -->
+  <div class="card carousel-card">
+    <div class="section-title">Project Snapshots <span class="count">5 images</span></div>
+    <div class="carousel" id="carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carouselTrack">
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <circle cx="160" cy="100" r="16" fill="var(--series-blue)"/>
+              <rect x="176" y="98" width="220" height="4" fill="var(--series-blue)"/>
+              <circle cx="420" cy="100" r="16" fill="var(--series-blue)"/>
+              <rect x="436" y="98" width="220" height="4" fill="var(--gridline)"/>
+              <circle cx="680" cy="100" r="16" fill="var(--surface-1)" stroke="var(--series-blue)" stroke-width="3"/>
+              <rect x="120" y="126" width="80" height="8" rx="4" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="380" y="126" width="80" height="8" rx="4" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="640" y="126" width="100" height="8" rx="4" fill="var(--series-blue)"/>
+              <rect x="120" y="170" width="960" height="240" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="150" y="200" width="34" height="34" rx="8" fill="var(--series-aqua)"/>
+              <rect x="200" y="208" width="220" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="200" y="222" width="140" height="7" rx="3" fill="var(--gridline)"/>
+              <rect x="960" y="208" width="60" height="20" rx="10" fill="var(--series-blue)"/>
+              <rect x="150" y="260" width="34" height="34" rx="8" fill="var(--series-violet)"/>
+              <rect x="200" y="268" width="260" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="200" y="282" width="120" height="7" rx="3" fill="var(--gridline)"/>
+              <rect x="960" y="268" width="60" height="20" rx="10" fill="var(--gridline)"/>
+              <rect x="150" y="320" width="34" height="34" rx="8" fill="var(--series-orange)"/>
+              <rect x="200" y="328" width="200" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="200" y="342" width="160" height="7" rx="3" fill="var(--gridline)"/>
+              <rect x="960" y="328" width="60" height="20" rx="10" fill="var(--gridline)"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Onboarding wizard — step 3</div>
+              <div class="cc-sub">Integrations screen, current build</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <rect x="120" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="120" y="65" width="195" height="5" fill="var(--series-blue)"/>
+              <rect x="340" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="340" y="65" width="195" height="5" fill="var(--series-aqua)"/>
+              <rect x="560" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="560" y="65" width="195" height="5" fill="var(--series-yellow)"/>
+              <rect x="780" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="780" y="65" width="195" height="5" fill="var(--series-violet)"/>
+              <rect x="120" y="180" width="855" height="230" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
+              <line x1="160" y1="380" x2="935" y2="380" stroke="var(--gridline)" stroke-width="2"/>
+              <rect x="180" y="300" width="46" height="80" rx="4" fill="var(--series-blue)"/>
+              <rect x="250" y="260" width="46" height="120" rx="4" fill="var(--series-blue)"/>
+              <rect x="320" y="330" width="46" height="50" rx="4" fill="var(--series-blue)"/>
+              <rect x="390" y="220" width="46" height="160" rx="4" fill="var(--series-blue)"/>
+              <rect x="460" y="280" width="46" height="100" rx="4" fill="var(--series-blue)"/>
+              <rect x="530" y="245" width="46" height="135" rx="4" fill="var(--series-blue)"/>
+              <rect x="600" y="300" width="46" height="80" rx="4" fill="var(--series-blue)"/>
+              <rect x="670" y="265" width="46" height="115" rx="4" fill="var(--series-blue)"/>
+              <rect x="740" y="235" width="46" height="145" rx="4" fill="var(--series-blue)"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Usage analytics dashboard</div>
+              <div class="cc-sub">Internal tool, weekly active accounts view</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <rect x="120" y="65" width="960" height="330" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="150" y="90" width="900" height="30" rx="6" fill="var(--gridline)"/>
+              <g>
+                <circle cx="170" cy="150" r="14" fill="var(--series-blue)"/>
+                <rect x="200" y="144" width="180" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="144" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="140" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="200" r="14" fill="var(--series-aqua)"/>
+                <rect x="200" y="194" width="220" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="194" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="190" width="70" height="18" rx="9" fill="var(--status-warning-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="250" r="14" fill="var(--series-violet)"/>
+                <rect x="200" y="244" width="160" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="244" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="240" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="300" r="14" fill="var(--series-orange)"/>
+                <rect x="200" y="294" width="200" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="294" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="290" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="350" r="14" fill="var(--series-magenta)"/>
+                <rect x="200" y="344" width="190" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="344" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="340" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Team accounts — member list</div>
+              <div class="cc-sub">Data model UI, early draft</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <circle cx="980" cy="230" r="170" fill="var(--series-blue)" opacity="0.16"/>
+              <circle cx="1040" cy="180" r="90" fill="var(--series-aqua)" opacity="0.20"/>
+              <rect x="150" y="150" width="420" height="26" rx="6" fill="var(--text-primary)" opacity="0.85"/>
+              <rect x="150" y="190" width="320" height="26" rx="6" fill="var(--text-primary)" opacity="0.85"/>
+              <rect x="150" y="240" width="380" height="10" rx="5" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="150" y="260" width="300" height="10" rx="5" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="150" y="300" width="150" height="42" rx="21" fill="var(--series-blue)"/>
+              <rect x="316" y="300" width="130" height="42" rx="21" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Beta landing page</div>
+              <div class="cc-sub">Marketing site, signup hero draft</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect x="430" y="35" width="180" height="395" rx="26" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="2"/>
+              <rect x="470" y="55" width="100" height="14" rx="7" fill="var(--gridline)"/>
+              <rect x="452" y="90" width="136" height="70" rx="8" fill="var(--series-blue)" opacity="0.85"/>
+              <rect x="452" y="172" width="136" height="10" rx="5" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="452" y="190" width="90" height="10" rx="5" fill="var(--gridline)"/>
+              <rect x="452" y="220" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+              <rect x="452" y="276" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+              <rect x="452" y="332" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+              <rect x="590" y="35" width="180" height="395" rx="26" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="2"/>
+              <rect x="630" y="55" width="100" height="14" rx="7" fill="var(--gridline)"/>
+              <circle cx="680" cy="140" r="45" fill="var(--series-aqua)" opacity="0.85"/>
+              <rect x="612" y="210" width="136" height="10" rx="5" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="612" y="228" width="100" height="10" rx="5" fill="var(--gridline)"/>
+              <rect x="612" y="270" width="136" height="40" rx="20" fill="var(--series-blue)"/>
+              <rect x="612" y="322" width="136" height="40" rx="20" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Mobile app screens</div>
+              <div class="cc-sub">Home + profile, design review pending</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <button class="carousel-btn prev" type="button" aria-label="Previous image" onclick="carouselMove(-1)">‹</button>
+      <button class="carousel-btn next" type="button" aria-label="Next image" onclick="carouselMove(1)">›</button>
+      <div class="carousel-dots" id="carouselDots"></div>
     </div>
   </div>
 
