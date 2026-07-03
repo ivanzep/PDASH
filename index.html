@@ -266,6 +266,74 @@
   .stat-tile.accent-critical .value { color: var(--status-critical); }
   .stat-tile.accent-warning .value { color: var(--status-warning); }
 
+  /* ---------- Image carousel ---------- */
+  .carousel-card { margin-bottom: 20px; padding: 16px; }
+  .carousel { position: relative; }
+  .carousel-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 6.2;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+  }
+  .carousel-slide {
+    position: relative;
+    flex: 0 0 100%;
+    height: 100%;
+  }
+  .carousel-slide svg { display: block; width: 100%; height: 100%; }
+  .carousel-caption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 14px 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.60), rgba(0,0,0,0));
+  }
+  .carousel-caption .cc-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .carousel-caption .cc-sub { font-size: 12px; color: rgba(255,255,255,0.82); }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-1);
+    opacity: 0.92;
+    color: var(--text-primary);
+    font-size: 17px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .carousel-btn:hover { opacity: 1; }
+  .carousel-btn.prev { left: 12px; }
+  .carousel-btn.next { right: 12px; }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .carousel-dot {
+    width: 7px; height: 7px;
+    border-radius: 4px;
+    background: var(--gridline);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: width 0.2s, background 0.2s;
+  }
+  .carousel-dot.active { background: var(--series-blue); width: 18px; }
+
   /* ---------- Layout grid ---------- */
   .grid {
     display: grid;
@@ -275,7 +343,7 @@
   }
   .col { display: flex; flex-direction: column; gap: 20px; }
 
-  /* ---------- Progress list (in progress) ---------- */
+  /* ---------- Task list (in progress) ---------- */
   .prog-item {
     padding: 12px 0;
     border-bottom: 1px solid var(--gridline);
@@ -285,24 +353,11 @@
   .prog-head {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 10px;
-    margin-bottom: 6px;
-  }
-  .prog-name { font-size: 14px; font-weight: 600; }
-  .prog-pct { font-size: 12.5px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-  .prog-bar-track {
-    height: 6px;
-    background: var(--gridline);
-    border-radius: 4px;
-    overflow: hidden;
     margin-bottom: 8px;
   }
-  .prog-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    background: var(--series-blue);
-  }
+  .prog-name { font-size: 14px; font-weight: 600; }
   .prog-meta {
     display: flex;
     align-items: center;
@@ -423,10 +478,50 @@
   .q-foot { font-size: 11.5px; color: var(--text-muted); }
   .q-owner { color: var(--text-secondary); font-weight: 600; }
 
+  /* ---------- Resources & links ---------- */
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--gridline);
+    text-decoration: none;
+    color: inherit;
+  }
+  .link-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .link-item:first-child { padding-top: 0; }
+  .link-icon {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .link-body { flex: 1; min-width: 0; }
+  .link-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .link-item:hover .link-title { text-decoration: underline; }
+  .link-url {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .link-arrow { flex-shrink: 0; color: var(--text-muted); font-size: 14px; }
+
   @media (max-width: 880px) {
     .grid { grid-template-columns: 1fr; }
     .stat-row { grid-template-columns: repeat(2, 1fr); }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
+    .carousel-viewport { aspect-ratio: 16 / 9; }
   }
 </style>
 </head>
@@ -446,6 +541,178 @@
       <div>Sprint 14 of 20</div>
     </div>
   </header>
+
+  <!-- Image carousel -->
+  <div class="card carousel-card">
+    <div class="section-title">Project Snapshots <span class="count">5 images</span></div>
+    <div class="carousel" id="carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carouselTrack">
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <circle cx="160" cy="100" r="16" fill="var(--series-blue)"/>
+              <rect x="176" y="98" width="220" height="4" fill="var(--series-blue)"/>
+              <circle cx="420" cy="100" r="16" fill="var(--series-blue)"/>
+              <rect x="436" y="98" width="220" height="4" fill="var(--gridline)"/>
+              <circle cx="680" cy="100" r="16" fill="var(--surface-1)" stroke="var(--series-blue)" stroke-width="3"/>
+              <rect x="120" y="126" width="80" height="8" rx="4" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="380" y="126" width="80" height="8" rx="4" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="640" y="126" width="100" height="8" rx="4" fill="var(--series-blue)"/>
+              <rect x="120" y="170" width="960" height="240" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="150" y="200" width="34" height="34" rx="8" fill="var(--series-aqua)"/>
+              <rect x="200" y="208" width="220" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="200" y="222" width="140" height="7" rx="3" fill="var(--gridline)"/>
+              <rect x="960" y="208" width="60" height="20" rx="10" fill="var(--series-blue)"/>
+              <rect x="150" y="260" width="34" height="34" rx="8" fill="var(--series-violet)"/>
+              <rect x="200" y="268" width="260" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="200" y="282" width="120" height="7" rx="3" fill="var(--gridline)"/>
+              <rect x="960" y="268" width="60" height="20" rx="10" fill="var(--gridline)"/>
+              <rect x="150" y="320" width="34" height="34" rx="8" fill="var(--series-orange)"/>
+              <rect x="200" y="328" width="200" height="9" rx="4" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="200" y="342" width="160" height="7" rx="3" fill="var(--gridline)"/>
+              <rect x="960" y="328" width="60" height="20" rx="10" fill="var(--gridline)"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Onboarding wizard — step 3</div>
+              <div class="cc-sub">Integrations screen, current build</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <rect x="120" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="120" y="65" width="195" height="5" fill="var(--series-blue)"/>
+              <rect x="340" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="340" y="65" width="195" height="5" fill="var(--series-aqua)"/>
+              <rect x="560" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="560" y="65" width="195" height="5" fill="var(--series-yellow)"/>
+              <rect x="780" y="65" width="195" height="80" rx="8" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="780" y="65" width="195" height="5" fill="var(--series-violet)"/>
+              <rect x="120" y="180" width="855" height="230" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
+              <line x1="160" y1="380" x2="935" y2="380" stroke="var(--gridline)" stroke-width="2"/>
+              <rect x="180" y="300" width="46" height="80" rx="4" fill="var(--series-blue)"/>
+              <rect x="250" y="260" width="46" height="120" rx="4" fill="var(--series-blue)"/>
+              <rect x="320" y="330" width="46" height="50" rx="4" fill="var(--series-blue)"/>
+              <rect x="390" y="220" width="46" height="160" rx="4" fill="var(--series-blue)"/>
+              <rect x="460" y="280" width="46" height="100" rx="4" fill="var(--series-blue)"/>
+              <rect x="530" y="245" width="46" height="135" rx="4" fill="var(--series-blue)"/>
+              <rect x="600" y="300" width="46" height="80" rx="4" fill="var(--series-blue)"/>
+              <rect x="670" y="265" width="46" height="115" rx="4" fill="var(--series-blue)"/>
+              <rect x="740" y="235" width="46" height="145" rx="4" fill="var(--series-blue)"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Usage analytics dashboard</div>
+              <div class="cc-sub">Internal tool, weekly active accounts view</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <rect x="120" y="65" width="960" height="330" rx="10" fill="var(--surface-1)" stroke="var(--border)"/>
+              <rect x="150" y="90" width="900" height="30" rx="6" fill="var(--gridline)"/>
+              <g>
+                <circle cx="170" cy="150" r="14" fill="var(--series-blue)"/>
+                <rect x="200" y="144" width="180" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="144" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="140" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="200" r="14" fill="var(--series-aqua)"/>
+                <rect x="200" y="194" width="220" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="194" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="190" width="70" height="18" rx="9" fill="var(--status-warning-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="250" r="14" fill="var(--series-violet)"/>
+                <rect x="200" y="244" width="160" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="244" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="240" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="300" r="14" fill="var(--series-orange)"/>
+                <rect x="200" y="294" width="200" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="294" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="290" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+              <g>
+                <circle cx="170" cy="350" r="14" fill="var(--series-magenta)"/>
+                <rect x="200" y="344" width="190" height="8" rx="4" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="500" y="344" width="120" height="8" rx="4" fill="var(--gridline)"/>
+                <rect x="960" y="340" width="70" height="18" rx="9" fill="var(--status-good-bg)"/>
+              </g>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Team accounts — member list</div>
+              <div class="cc-sub">Data model UI, early draft</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect width="1200" height="36" fill="var(--surface-1)"/>
+              <circle cx="20" cy="18" r="5" fill="#e34948"/><circle cx="38" cy="18" r="5" fill="#eda100"/><circle cx="56" cy="18" r="5" fill="#1baf7a"/>
+              <rect x="90" y="10" width="260" height="16" rx="8" fill="var(--gridline)"/>
+              <circle cx="980" cy="230" r="170" fill="var(--series-blue)" opacity="0.16"/>
+              <circle cx="1040" cy="180" r="90" fill="var(--series-aqua)" opacity="0.20"/>
+              <rect x="150" y="150" width="420" height="26" rx="6" fill="var(--text-primary)" opacity="0.85"/>
+              <rect x="150" y="190" width="320" height="26" rx="6" fill="var(--text-primary)" opacity="0.85"/>
+              <rect x="150" y="240" width="380" height="10" rx="5" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="150" y="260" width="300" height="10" rx="5" fill="var(--text-muted)" opacity="0.55"/>
+              <rect x="150" y="300" width="150" height="42" rx="21" fill="var(--series-blue)"/>
+              <rect x="316" y="300" width="130" height="42" rx="21" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Beta landing page</div>
+              <div class="cc-sub">Marketing site, signup hero draft</div>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <svg viewBox="0 0 1200 465" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="1200" height="465" fill="var(--surface-2)"/>
+              <rect x="430" y="35" width="180" height="395" rx="26" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="2"/>
+              <rect x="470" y="55" width="100" height="14" rx="7" fill="var(--gridline)"/>
+              <rect x="452" y="90" width="136" height="70" rx="8" fill="var(--series-blue)" opacity="0.85"/>
+              <rect x="452" y="172" width="136" height="10" rx="5" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="452" y="190" width="90" height="10" rx="5" fill="var(--gridline)"/>
+              <rect x="452" y="220" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+              <rect x="452" y="276" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+              <rect x="452" y="332" width="136" height="46" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+              <rect x="590" y="35" width="180" height="395" rx="26" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="2"/>
+              <rect x="630" y="55" width="100" height="14" rx="7" fill="var(--gridline)"/>
+              <circle cx="680" cy="140" r="45" fill="var(--series-aqua)" opacity="0.85"/>
+              <rect x="612" y="210" width="136" height="10" rx="5" fill="var(--text-muted)" opacity="0.5"/>
+              <rect x="612" y="228" width="100" height="10" rx="5" fill="var(--gridline)"/>
+              <rect x="612" y="270" width="136" height="40" rx="20" fill="var(--series-blue)"/>
+              <rect x="612" y="322" width="136" height="40" rx="20" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
+            </svg>
+            <div class="carousel-caption">
+              <div class="cc-title">Mobile app screens</div>
+              <div class="cc-sub">Home + profile, design review pending</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <button class="carousel-btn prev" type="button" aria-label="Previous image" onclick="carouselMove(-1)">‹</button>
+      <button class="carousel-btn next" type="button" aria-label="Next image" onclick="carouselMove(1)">›</button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
 
   <!-- Project path / direction -->
   <div class="card direction-card">
@@ -517,9 +784,8 @@
         <div class="prog-item">
           <div class="prog-head">
             <span class="prog-name">Onboarding wizard — step 3 (integrations)</span>
-            <span class="prog-pct">70%</span>
+            <span class="badge badge-good">On track</span>
           </div>
-          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:70%; background:var(--series-blue);"></div></div>
           <div class="prog-meta">
             <span class="avatar" style="background:var(--series-blue);">MR</span>
             <span>Maya R.</span>
@@ -530,9 +796,8 @@
         <div class="prog-item">
           <div class="prog-head">
             <span class="prog-name">Auth service rate limiting</span>
-            <span class="prog-pct">45%</span>
+            <span class="badge badge-serious">At risk</span>
           </div>
-          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:45%; background:var(--series-aqua);"></div></div>
           <div class="prog-meta">
             <span class="avatar" style="background:var(--series-aqua);">DK</span>
             <span>Dan K.</span>
@@ -543,9 +808,8 @@
         <div class="prog-item">
           <div class="prog-head">
             <span class="prog-name">Team accounts data model</span>
-            <span class="prog-pct">30%</span>
+            <span class="badge badge-good">On track</span>
           </div>
-          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:30%; background:var(--series-violet);"></div></div>
           <div class="prog-meta">
             <span class="avatar" style="background:var(--series-violet);">SL</span>
             <span>Sara L.</span>
@@ -556,9 +820,8 @@
         <div class="prog-item">
           <div class="prog-head">
             <span class="prog-name">Usage analytics dashboard (internal)</span>
-            <span class="prog-pct">85%</span>
+            <span class="badge badge-good">Nearly done</span>
           </div>
-          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:85%; background:var(--series-blue);"></div></div>
           <div class="prog-meta">
             <span class="avatar" style="background:var(--series-orange);">JT</span>
             <span>Jon T.</span>
@@ -569,9 +832,8 @@
         <div class="prog-item">
           <div class="prog-head">
             <span class="prog-name">Beta cohort recruiting</span>
-            <span class="prog-pct">55%</span>
+            <span class="badge badge-good">On track</span>
           </div>
-          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:55%; background:var(--series-yellow);"></div></div>
           <div class="prog-meta">
             <span class="avatar" style="background:var(--series-magenta);">AC</span>
             <span>Alma C.</span>
@@ -716,9 +978,101 @@
         </div>
       </div>
 
+      <!-- Resources & links -->
+      <div class="card">
+        <div class="section-title">Resources &amp; Links</div>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-blue);">PR</span>
+          <div class="link-body">
+            <div class="link-title">Product requirements doc</div>
+            <div class="link-url">docs.google.com/onboarding-prd</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-violet);">FG</span>
+          <div class="link-body">
+            <div class="link-title">Figma — onboarding &amp; beta flows</div>
+            <div class="link-url">figma.com/file/atlas-onboarding</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-aqua);">GH</span>
+          <div class="link-body">
+            <div class="link-title">Repository — atlas-onboarding</div>
+            <div class="link-url">github.com/ivanzep/atlas-onboarding</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-orange);">AN</span>
+          <div class="link-body">
+            <div class="link-title">Analytics — beta funnel dashboard</div>
+            <div class="link-url">amplitude.com/atlas/beta-funnel</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-magenta);">SL</span>
+          <div class="link-body">
+            <div class="link-title">Slack — #atlas-onboarding</div>
+            <div class="link-url">app.slack.com/atlas-onboarding</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+      </div>
+
     </div>
   </div>
 
 </div>
+<script>
+  (function () {
+    const track = document.getElementById('carouselTrack');
+    const dotsWrap = document.getElementById('carouselDots');
+    const viewport = document.querySelector('.carousel-viewport');
+    const count = track.children.length;
+    let index = 0;
+    let timer;
+
+    for (let i = 0; i < count; i++) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to image ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    }
+
+    function render() {
+      track.style.transform = 'translateX(-' + index * 100 + '%)';
+      Array.prototype.forEach.call(dotsWrap.children, (d, i) => {
+        d.classList.toggle('active', i === index);
+      });
+    }
+    function goTo(i) {
+      index = (i + count) % count;
+      render();
+      restart();
+    }
+    window.carouselMove = (delta) => goTo(index + delta);
+    function restart() {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(index + 1), 4500);
+    }
+
+    viewport.addEventListener('mouseenter', () => clearInterval(timer));
+    viewport.addEventListener('mouseleave', restart);
+
+    render();
+    restart();
+  })();
+</script>
 </body>
 </html>
