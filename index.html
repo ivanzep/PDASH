@@ -38,59 +38,6 @@
     --radius: 12px;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --surface-1:      #1a1a19;
-      --surface-2:      #202020;
-      --page-plane:      #0d0d0d;
-      --text-primary:   #ffffff;
-      --text-secondary: #c3c2b7;
-      --text-muted:     #898781;
-      --gridline:       #2c2c2a;
-      --border:         rgba(255,255,255,0.10);
-      --border-strong:  rgba(255,255,255,0.16);
-
-      --series-blue:    #3987e5;
-      --series-aqua:    #199e70;
-      --series-yellow:  #c98500;
-      --series-green:   #008300;
-      --series-violet:  #9085e9;
-      --series-red:     #e66767;
-      --series-magenta: #d55181;
-      --series-orange:  #d95926;
-
-      --status-good:     #0ca30c;
-      --status-warning:  #fab219;
-      --status-serious:  #ec835a;
-      --status-critical: #e66767;
-
-      --status-good-bg:     rgba(12,163,12,0.14);
-      --status-warning-bg:  rgba(250,178,25,0.14);
-      --status-serious-bg:  rgba(236,131,90,0.14);
-      --status-critical-bg: rgba(230,103,103,0.16);
-    }
-  }
-
-  :root[data-theme="light"] {
-    --surface-1: #fcfcfb; --surface-2:#ffffff; --page-plane:#f9f9f7;
-    --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#898781;
-    --gridline:#e1e0d9; --border:rgba(11,11,11,0.10); --border-strong:rgba(11,11,11,0.16);
-    --series-blue:#2a78d6; --series-aqua:#1baf7a; --series-yellow:#eda100; --series-green:#008300;
-    --series-violet:#4a3aa7; --series-red:#e34948; --series-magenta:#e87ba4; --series-orange:#eb6834;
-    --status-good:#0ca30c; --status-warning:#a66a00; --status-serious:#c1552f; --status-critical:#d03b3b;
-    --status-good-bg:#e6f6e6; --status-warning-bg:#fdf1d9; --status-serious-bg:#fbe7dd; --status-critical-bg:#fbe4e4;
-  }
-  :root[data-theme="dark"] {
-    --surface-1:#1a1a19; --surface-2:#202020; --page-plane:#0d0d0d;
-    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#898781;
-    --gridline:#2c2c2a; --border:rgba(255,255,255,0.10); --border-strong:rgba(255,255,255,0.16);
-    --series-blue:#3987e5; --series-aqua:#199e70; --series-yellow:#c98500; --series-green:#008300;
-    --series-violet:#9085e9; --series-red:#e66767; --series-magenta:#d55181; --series-orange:#d95926;
-    --status-good:#0ca30c; --status-warning:#fab219; --status-serious:#ec835a; --status-critical:#e66767;
-    --status-good-bg:rgba(12,163,12,0.14); --status-warning-bg:rgba(250,178,25,0.14);
-    --status-serious-bg:rgba(236,131,90,0.14); --status-critical-bg:rgba(230,103,103,0.16);
-  }
-
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -234,63 +181,89 @@
     margin-top: 2px;
   }
 
-  /* ---------- Kanban-style counter cards ---------- */
-  .kanban-row {
+  /* ---------- Kanban board ---------- */
+  .board-card { margin-bottom: 20px; }
+  .kanban-board {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
+    gap: 18px;
+    align-items: start;
   }
-  .kanban-card {
-    position: relative;
-    z-index: 0;
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 18px 15px;
+  .kanban-col { min-width: 0; }
+  .kanban-col-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--col-color, var(--gridline));
   }
-  .kanban-card::before,
-  .kanban-card::after {
-    content: "";
-    position: absolute;
-    top: 6px; left: 6px; right: -6px; bottom: -6px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    z-index: -1;
+  .kanban-col-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--col-color, var(--text-muted));
   }
-  .kanban-card::after {
-    top: 12px; left: 12px; right: -12px; bottom: -12px;
-    opacity: 0.55;
-    z-index: -2;
-  }
-  .kanban-top {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    border-radius: 10px 10px 0 0;
-  }
-  .kanban-card .label {
-    font-size: 11.5px;
+  .kanban-col-title {
+    flex: 1;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--text-muted);
-    margin: 4px 0 10px;
+    color: var(--text-primary);
   }
-  .kanban-card .value {
-    font-size: 28px;
+  .kanban-col-count {
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1;
-  }
-  .kanban-card .sub {
-    margin-top: 6px;
-    font-size: 12px;
     color: var(--text-secondary);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 1px 8px;
   }
-  .kanban-card.accent-critical .value { color: var(--status-critical); }
-  .kanban-card.accent-warning .value { color: var(--status-warning); }
+  .k-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 13px;
+    margin-bottom: 10px;
+  }
+  .k-card:last-child { margin-bottom: 0; }
+  .k-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+  .k-card-desc {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .k-card-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .k-card-foot {
+    margin-top: 8px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+  }
+  .k-date {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .k-card .badge { margin-bottom: 8px; }
 
   /* ---------- Image carousel ---------- */
   .carousel-card { margin-bottom: 20px; padding: 16px; }
@@ -368,29 +341,8 @@
     align-items: start;
   }
   .col { display: flex; flex-direction: column; gap: 20px; }
+  .info-grid { grid-template-columns: 1fr 1fr; }
 
-  /* ---------- Task list (in progress) ---------- */
-  .prog-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--gridline);
-  }
-  .prog-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .prog-item:first-child { padding-top: 0; }
-  .prog-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .prog-name { font-size: 14px; font-weight: 600; }
-  .prog-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
   .tag {
     font-size: 11px;
     font-weight: 600;
@@ -413,16 +365,7 @@
     flex-shrink: 0;
   }
 
-  /* ---------- Priority / watch list rows ---------- */
-  .row-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--gridline);
-  }
-  .row-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .row-item:first-child { padding-top: 0; }
+  /* ---------- Status badges (used inside kanban cards) ---------- */
   .badge {
     flex-shrink: 0;
     font-size: 10.5px;
@@ -438,44 +381,6 @@
   .badge-serious  { background: var(--status-serious-bg); color: var(--status-serious); }
   .badge-warning  { background: var(--status-warning-bg); color: var(--status-warning); }
   .badge-good     { background: var(--status-good-bg); color: var(--status-good); }
-
-  .row-body { flex: 1; min-width: 0; }
-  .row-title { font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
-  .row-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
-  .row-foot { margin-top: 5px; font-size: 11.5px; color: var(--text-muted); }
-
-  /* ---------- Deliverables timeline ---------- */
-  .timeline { position: relative; padding-left: 20px; }
-  .timeline::before {
-    content: "";
-    position: absolute;
-    left: 5px; top: 4px; bottom: 4px;
-    width: 2px;
-    background: var(--gridline);
-  }
-  .tl-item { position: relative; padding-bottom: 18px; }
-  .tl-item:last-child { padding-bottom: 0; }
-  .tl-item::before {
-    content: "";
-    position: absolute;
-    left: -20px; top: 3px;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--surface-2);
-    border: 2px solid var(--series-blue);
-  }
-  .tl-item.at-risk::before { border-color: var(--status-serious); }
-  .tl-item.done::before { background: var(--status-good); border-color: var(--status-good); }
-  .tl-date {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 3px;
-  }
-  .tl-title { font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
-  .tl-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
 
   /* ---------- Open questions ---------- */
   .q-item {
@@ -545,9 +450,12 @@
 
   @media (max-width: 880px) {
     .grid { grid-template-columns: 1fr; }
-    .kanban-row { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
+    .kanban-board { grid-template-columns: repeat(2, 1fr); }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
     .carousel-viewport { aspect-ratio: 16 / 9; }
+  }
+  @media (max-width: 560px) {
+    .kanban-board { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -603,209 +511,179 @@
     </div>
   </div>
 
-  <!-- Kanban-style counter cards -->
-  <div class="kanban-row">
-    <div class="kanban-card">
-      <div class="kanban-top" style="background:var(--series-blue);"></div>
-      <div class="label">In progress</div>
-      <div class="value">7</div>
-      <div class="sub">across 3 workstreams</div>
-    </div>
-    <div class="kanban-card accent-critical">
-      <div class="kanban-top" style="background:var(--status-critical);"></div>
-      <div class="label">High priority</div>
-      <div class="value">3</div>
-      <div class="sub">1 blocked</div>
-    </div>
-    <div class="kanban-card accent-warning">
-      <div class="kanban-top" style="background:var(--status-warning);"></div>
-      <div class="label">Things to watch</div>
-      <div class="value">4</div>
-      <div class="sub">2 trending worse</div>
-    </div>
-    <div class="kanban-card">
-      <div class="kanban-top" style="background:var(--series-violet);"></div>
-      <div class="label">Next deadline</div>
-      <div class="value">6d</div>
-      <div class="sub">Beta invite list — Jul 9</div>
-    </div>
-  </div>
+  <!-- Kanban board -->
+  <div class="card board-card">
+    <div class="section-title">Board</div>
+    <div class="kanban-board">
 
-  <div class="grid">
-    <!-- LEFT COLUMN -->
-    <div class="col">
+      <!-- In Progress -->
+      <div class="kanban-col">
+        <div class="kanban-col-head" style="--col-color:var(--series-blue);">
+          <span class="kanban-col-dot"></span>
+          <span class="kanban-col-title">In Progress</span>
+          <span class="kanban-col-count">5</span>
+        </div>
 
-      <!-- In progress -->
-      <div class="card">
-        <div class="section-title">In Progress <span class="count">7 active</span></div>
-
-        <div class="prog-item">
-          <div class="prog-head">
-            <span class="prog-name">Onboarding wizard — step 3 (integrations)</span>
-            <span class="badge badge-good">On track</span>
-          </div>
-          <div class="prog-meta">
+        <div class="k-card">
+          <div class="k-card-title">Onboarding wizard — step 3 (integrations)</div>
+          <div class="k-card-meta">
             <span class="avatar" style="background:var(--series-blue);">MR</span>
             <span>Maya R.</span>
             <span class="tag">Frontend</span>
           </div>
+          <div class="k-card-foot"><span class="badge badge-good">On track</span></div>
         </div>
 
-        <div class="prog-item">
-          <div class="prog-head">
-            <span class="prog-name">Auth service rate limiting</span>
-            <span class="badge badge-serious">At risk</span>
-          </div>
-          <div class="prog-meta">
+        <div class="k-card">
+          <div class="k-card-title">Auth service rate limiting</div>
+          <div class="k-card-meta">
             <span class="avatar" style="background:var(--series-aqua);">DK</span>
             <span>Dan K.</span>
             <span class="tag">Backend</span>
           </div>
+          <div class="k-card-foot"><span class="badge badge-serious">At risk</span></div>
         </div>
 
-        <div class="prog-item">
-          <div class="prog-head">
-            <span class="prog-name">Team accounts data model</span>
-            <span class="badge badge-good">On track</span>
-          </div>
-          <div class="prog-meta">
+        <div class="k-card">
+          <div class="k-card-title">Team accounts data model</div>
+          <div class="k-card-meta">
             <span class="avatar" style="background:var(--series-violet);">SL</span>
             <span>Sara L.</span>
             <span class="tag">Backend</span>
           </div>
+          <div class="k-card-foot"><span class="badge badge-good">On track</span></div>
         </div>
 
-        <div class="prog-item">
-          <div class="prog-head">
-            <span class="prog-name">Usage analytics dashboard (internal)</span>
-            <span class="badge badge-good">Nearly done</span>
-          </div>
-          <div class="prog-meta">
+        <div class="k-card">
+          <div class="k-card-title">Usage analytics dashboard (internal)</div>
+          <div class="k-card-meta">
             <span class="avatar" style="background:var(--series-orange);">JT</span>
             <span>Jon T.</span>
             <span class="tag">Data</span>
           </div>
+          <div class="k-card-foot"><span class="badge badge-good">Nearly done</span></div>
         </div>
 
-        <div class="prog-item">
-          <div class="prog-head">
-            <span class="prog-name">Beta cohort recruiting</span>
-            <span class="badge badge-good">On track</span>
-          </div>
-          <div class="prog-meta">
+        <div class="k-card">
+          <div class="k-card-title">Beta cohort recruiting</div>
+          <div class="k-card-meta">
             <span class="avatar" style="background:var(--series-magenta);">AC</span>
             <span>Alma C.</span>
             <span class="tag">Growth</span>
           </div>
+          <div class="k-card-foot"><span class="badge badge-good">On track</span></div>
+        </div>
+      </div>
+
+      <!-- High Priority -->
+      <div class="kanban-col">
+        <div class="kanban-col-head" style="--col-color:var(--status-critical);">
+          <span class="kanban-col-dot"></span>
+          <span class="kanban-col-title">High Priority</span>
+          <span class="kanban-col-count">3</span>
         </div>
 
+        <div class="k-card">
+          <span class="badge badge-critical">Blocked</span>
+          <div class="k-card-title">Salesforce OAuth app pending third-party review</div>
+          <div class="k-card-desc">Blocks the integrations step; review queue currently running ~10 business days.</div>
+          <div class="k-card-foot">Owner: Maya R. · Opened Jun 24</div>
+        </div>
+
+        <div class="k-card">
+          <span class="badge badge-serious">Due soon</span>
+          <div class="k-card-title">Finalize pricing tiers for team accounts</div>
+          <div class="k-card-desc">Needed before beta invites go out so onboarding copy matches pricing.</div>
+          <div class="k-card-foot">Owner: Ivan Z. · Due Jul 9</div>
+        </div>
+
+        <div class="k-card">
+          <span class="badge badge-serious">At risk</span>
+          <div class="k-card-title">Rate limiting perf regression under load</div>
+          <div class="k-card-desc">Early load tests show p95 latency 2.3x target at 3k concurrent sessions.</div>
+          <div class="k-card-foot">Owner: Dan K. · Flagged Jul 1</div>
+        </div>
+      </div>
+
+      <!-- Things to Watch -->
+      <div class="kanban-col">
+        <div class="kanban-col-head" style="--col-color:var(--status-warning);">
+          <span class="kanban-col-dot"></span>
+          <span class="kanban-col-title">Things to Watch</span>
+          <span class="kanban-col-count">4</span>
+        </div>
+
+        <div class="k-card">
+          <span class="badge badge-warning">Watch</span>
+          <div class="k-card-title">Support headcount for beta launch</div>
+          <div class="k-card-desc">Current plan assumes 1 support rep per 100 beta accounts — untested ratio.</div>
+        </div>
+
+        <div class="k-card">
+          <span class="badge badge-warning">Watch</span>
+          <div class="k-card-title">Third-party OAuth review turnaround</div>
+          <div class="k-card-desc">Trending slower than prior quarter; could push integrations timeline.</div>
+        </div>
+
+        <div class="k-card">
+          <span class="badge badge-good">Stable</span>
+          <div class="k-card-title">Infra cost run-rate</div>
+          <div class="k-card-desc">Tracking 4% under budget through Q3 projections.</div>
+        </div>
+
+        <div class="k-card">
+          <span class="badge badge-warning">Watch</span>
+          <div class="k-card-title">Competitor beta launch (rumored Aug)</div>
+          <div class="k-card-desc">Unconfirmed; monitoring for overlap with our GA window.</div>
+        </div>
       </div>
 
       <!-- Upcoming deliverables -->
-      <div class="card">
-        <div class="section-title">Upcoming Deliverables &amp; Deadlines</div>
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="tl-date">Jul 9, 2026</div>
-            <div class="tl-title">Beta invite list finalized</div>
-            <div class="tl-desc">200 target accounts confirmed with Growth; hand off to email sequencing.</div>
-          </div>
-          <div class="tl-item at-risk">
-            <div class="tl-date">Jul 18, 2026</div>
-            <div class="tl-title">Integrations step feature-complete</div>
-            <div class="tl-desc">Slack + Google OAuth flows done; Salesforce connector at risk of slipping.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">Jul 25, 2026</div>
-            <div class="tl-title">Load test — auth &amp; rate limiting</div>
-            <div class="tl-desc">Validate 5k concurrent sessions before opening beta signups.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">Aug 4, 2026</div>
-            <div class="tl-title">Private beta opens</div>
-            <div class="tl-desc">First cohort of 200 invited accounts get access.</div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-date">Oct 1, 2026</div>
-            <div class="tl-title">General availability</div>
-            <div class="tl-desc">Public launch, pricing page live, support runbooks published.</div>
-          </div>
+      <div class="kanban-col">
+        <div class="kanban-col-head" style="--col-color:var(--series-violet);">
+          <span class="kanban-col-dot"></span>
+          <span class="kanban-col-title">Upcoming</span>
+          <span class="kanban-col-count">5</span>
+        </div>
+
+        <div class="k-card">
+          <span class="k-date">Jul 9, 2026</span>
+          <div class="k-card-title">Beta invite list finalized</div>
+          <div class="k-card-desc">200 target accounts confirmed with Growth; hand off to email sequencing.</div>
+        </div>
+
+        <div class="k-card">
+          <span class="k-date">Jul 18, 2026</span>
+          <div class="k-card-title">Integrations step feature-complete</div>
+          <div class="k-card-desc">Slack + Google OAuth flows done; Salesforce connector at risk of slipping.</div>
+          <div class="k-card-foot"><span class="badge badge-serious">At risk</span></div>
+        </div>
+
+        <div class="k-card">
+          <span class="k-date">Jul 25, 2026</span>
+          <div class="k-card-title">Load test — auth &amp; rate limiting</div>
+          <div class="k-card-desc">Validate 5k concurrent sessions before opening beta signups.</div>
+        </div>
+
+        <div class="k-card">
+          <span class="k-date">Aug 4, 2026</span>
+          <div class="k-card-title">Private beta opens</div>
+          <div class="k-card-desc">First cohort of 200 invited accounts get access.</div>
+        </div>
+
+        <div class="k-card">
+          <span class="k-date">Oct 1, 2026</span>
+          <div class="k-card-title">General availability</div>
+          <div class="k-card-desc">Public launch, pricing page live, support runbooks published.</div>
         </div>
       </div>
 
     </div>
+  </div>
 
-    <!-- RIGHT COLUMN -->
+  <div class="grid info-grid">
+    <!-- LEFT COLUMN -->
     <div class="col">
-
-      <!-- High priority -->
-      <div class="card">
-        <div class="section-title">High Priority <span class="count">3 items</span></div>
-
-        <div class="row-item">
-          <span class="badge badge-critical">Blocked</span>
-          <div class="row-body">
-            <div class="row-title">Salesforce OAuth app pending third-party review</div>
-            <div class="row-desc">Blocks the integrations step; review queue currently running ~10 business days.</div>
-            <div class="row-foot">Owner: Maya R. · Opened Jun 24</div>
-          </div>
-        </div>
-
-        <div class="row-item">
-          <span class="badge badge-serious">Due soon</span>
-          <div class="row-body">
-            <div class="row-title">Finalize pricing tiers for team accounts</div>
-            <div class="row-desc">Needed before beta invites go out so onboarding copy matches pricing.</div>
-            <div class="row-foot">Owner: Ivan Z. · Due Jul 9</div>
-          </div>
-        </div>
-
-        <div class="row-item">
-          <span class="badge badge-serious">At risk</span>
-          <div class="row-body">
-            <div class="row-title">Rate limiting perf regression under load</div>
-            <div class="row-desc">Early load tests show p95 latency 2.3x target at 3k concurrent sessions.</div>
-            <div class="row-foot">Owner: Dan K. · Flagged Jul 1</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Things to watch -->
-      <div class="card">
-        <div class="section-title">Things to Watch <span class="count">4 items</span></div>
-
-        <div class="row-item">
-          <span class="badge badge-warning">Watch</span>
-          <div class="row-body">
-            <div class="row-title">Support headcount for beta launch</div>
-            <div class="row-desc">Current plan assumes 1 support rep per 100 beta accounts — untested ratio.</div>
-          </div>
-        </div>
-
-        <div class="row-item">
-          <span class="badge badge-warning">Watch</span>
-          <div class="row-body">
-            <div class="row-title">Third-party OAuth review turnaround</div>
-            <div class="row-desc">Trending slower than prior quarter; could push integrations timeline.</div>
-          </div>
-        </div>
-
-        <div class="row-item">
-          <span class="badge badge-good">Stable</span>
-          <div class="row-body">
-            <div class="row-title">Infra cost run-rate</div>
-            <div class="row-desc">Tracking 4% under budget through Q3 projections.</div>
-          </div>
-        </div>
-
-        <div class="row-item">
-          <span class="badge badge-warning">Watch</span>
-          <div class="row-body">
-            <div class="row-title">Competitor beta launch (rumored Aug)</div>
-            <div class="row-desc">Unconfirmed; monitoring for overlap with our GA window.</div>
-          </div>
-        </div>
-      </div>
 
       <!-- Open questions -->
       <div class="card">
@@ -835,6 +713,11 @@
           </div>
         </div>
       </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
 
       <!-- Resources & links -->
       <div class="card">
