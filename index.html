@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Dashboard — Mockup</title>
+<style>
+  :root {
+    --surface-1:      #fcfcfb;
+    --surface-2:      #ffffff;
+    --page-plane:      #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --border:         rgba(11,11,11,0.10);
+    --border-strong:  rgba(11,11,11,0.16);
+
+    --series-blue:    #2a78d6;
+    --series-aqua:    #1baf7a;
+    --series-yellow:  #eda100;
+    --series-green:   #008300;
+    --series-violet:  #4a3aa7;
+    --series-red:     #e34948;
+    --series-magenta: #e87ba4;
+    --series-orange:  #eb6834;
+
+    --status-good:     #0ca30c;
+    --status-warning:  #a66a00;
+    --status-serious:  #c1552f;
+    --status-critical: #d03b3b;
+
+    --status-good-bg:     #e6f6e6;
+    --status-warning-bg:  #fdf1d9;
+    --status-serious-bg:  #fbe7dd;
+    --status-critical-bg: #fbe4e4;
+
+    --radius: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-1:      #1a1a19;
+      --surface-2:      #202020;
+      --page-plane:      #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --border:         rgba(255,255,255,0.10);
+      --border-strong:  rgba(255,255,255,0.16);
+
+      --series-blue:    #3987e5;
+      --series-aqua:    #199e70;
+      --series-yellow:  #c98500;
+      --series-green:   #008300;
+      --series-violet:  #9085e9;
+      --series-red:     #e66767;
+      --series-magenta: #d55181;
+      --series-orange:  #d95926;
+
+      --status-good:     #0ca30c;
+      --status-warning:  #fab219;
+      --status-serious:  #ec835a;
+      --status-critical: #e66767;
+
+      --status-good-bg:     rgba(12,163,12,0.14);
+      --status-warning-bg:  rgba(250,178,25,0.14);
+      --status-serious-bg:  rgba(236,131,90,0.14);
+      --status-critical-bg: rgba(230,103,103,0.16);
+    }
+  }
+
+  :root[data-theme="light"] {
+    --surface-1: #fcfcfb; --surface-2:#ffffff; --page-plane:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#898781;
+    --gridline:#e1e0d9; --border:rgba(11,11,11,0.10); --border-strong:rgba(11,11,11,0.16);
+    --series-blue:#2a78d6; --series-aqua:#1baf7a; --series-yellow:#eda100; --series-green:#008300;
+    --series-violet:#4a3aa7; --series-red:#e34948; --series-magenta:#e87ba4; --series-orange:#eb6834;
+    --status-good:#0ca30c; --status-warning:#a66a00; --status-serious:#c1552f; --status-critical:#d03b3b;
+    --status-good-bg:#e6f6e6; --status-warning-bg:#fdf1d9; --status-serious-bg:#fbe7dd; --status-critical-bg:#fbe4e4;
+  }
+  :root[data-theme="dark"] {
+    --surface-1:#1a1a19; --surface-2:#202020; --page-plane:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#898781;
+    --gridline:#2c2c2a; --border:rgba(255,255,255,0.10); --border-strong:rgba(255,255,255,0.16);
+    --series-blue:#3987e5; --series-aqua:#199e70; --series-yellow:#c98500; --series-green:#008300;
+    --series-violet:#9085e9; --series-red:#e66767; --series-magenta:#d55181; --series-orange:#d95926;
+    --status-good:#0ca30c; --status-warning:#fab219; --status-serious:#ec835a; --status-critical:#e66767;
+    --status-good-bg:rgba(12,163,12,0.14); --status-warning-bg:rgba(250,178,25,0.14);
+    --status-serious-bg:rgba(236,131,90,0.14); --status-critical-bg:rgba(230,103,103,0.16);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  .mockup-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px dashed var(--border-strong);
+    border-radius: 999px;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .title-block h1 {
+    font-size: 26px;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .title-block p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    max-width: 62ch;
+  }
+  .meta-block {
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .meta-block div { margin-bottom: 4px; }
+
+  /* ---------- Direction / phase tracker ---------- */
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .section-title .count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 1px 8px;
+  }
+
+  .direction-card { margin-bottom: 20px; }
+  .direction-goal {
+    font-size: 15px;
+    color: var(--text-primary);
+    margin: 0 0 18px;
+    line-height: 1.5;
+  }
+  .direction-goal strong { font-weight: 600; }
+
+  .phase-track {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .phase {
+    position: relative;
+    padding-top: 18px;
+  }
+  .phase .dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 2px solid var(--border-strong);
+  }
+  .phase .bar {
+    position: absolute;
+    top: 5px;
+    left: 12px;
+    right: -0px;
+    height: 2px;
+    background: var(--gridline);
+  }
+  .phase:last-child .bar { display: none; }
+  .phase.done .dot { background: var(--series-blue); border-color: var(--series-blue); }
+  .phase.done .bar { background: var(--series-blue); }
+  .phase.current .dot {
+    background: var(--surface-1);
+    border-color: var(--series-blue);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--series-blue) 25%, transparent);
+  }
+  .phase-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 6px;
+  }
+  .phase.upcoming .phase-label { color: var(--text-muted); font-weight: 500; }
+  .phase-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ---------- Stat tiles ---------- */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .stat-tile {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .stat-tile .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .stat-tile .value {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .stat-tile .sub {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .stat-tile.accent-critical .value { color: var(--status-critical); }
+  .stat-tile.accent-warning .value { color: var(--status-warning); }
+
+  /* ---------- Layout grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .col { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ---------- Progress list (in progress) ---------- */
+  .prog-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gridline);
+  }
+  .prog-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .prog-item:first-child { padding-top: 0; }
+  .prog-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .prog-name { font-size: 14px; font-weight: 600; }
+  .prog-pct { font-size: 12.5px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .prog-bar-track {
+    height: 6px;
+    background: var(--gridline);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .prog-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--series-blue);
+  }
+  .prog-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .avatar {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--series-violet);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ---------- Priority / watch list rows ---------- */
+  .row-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gridline);
+  }
+  .row-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .row-item:first-child { padding-top: 0; }
+  .badge {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 6px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .badge-critical { background: var(--status-critical-bg); color: var(--status-critical); }
+  .badge-serious  { background: var(--status-serious-bg); color: var(--status-serious); }
+  .badge-warning  { background: var(--status-warning-bg); color: var(--status-warning); }
+  .badge-good     { background: var(--status-good-bg); color: var(--status-good); }
+
+  .row-body { flex: 1; min-width: 0; }
+  .row-title { font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+  .row-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+  .row-foot { margin-top: 5px; font-size: 11.5px; color: var(--text-muted); }
+
+  /* ---------- Deliverables timeline ---------- */
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px; top: 4px; bottom: 4px;
+    width: 2px;
+    background: var(--gridline);
+  }
+  .tl-item { position: relative; padding-bottom: 18px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -20px; top: 3px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 2px solid var(--series-blue);
+  }
+  .tl-item.at-risk::before { border-color: var(--status-serious); }
+  .tl-item.done::before { background: var(--status-good); border-color: var(--status-good); }
+  .tl-date {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .tl-title { font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+  .tl-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+
+  /* ---------- Open questions ---------- */
+  .q-item {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gridline);
+    display: flex;
+    gap: 10px;
+  }
+  .q-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .q-item:first-child { padding-top: 0; }
+  .q-mark {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .q-body { flex: 1; }
+  .q-title { font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+  .q-foot { font-size: 11.5px; color: var(--text-muted); }
+  .q-owner { color: var(--text-secondary); font-weight: 600; }
+
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="mockup-flag">● Mockup — placeholder data</span>
+
+  <header class="top">
+    <div class="title-block">
+      <h1>Atlas — Project Dashboard</h1>
+      <p>Single view of where the project is headed, what's moving, what needs attention, and what's due next.</p>
+    </div>
+    <div class="meta-block">
+      <div>Last updated: Jul 3, 2026 · 9:12 AM</div>
+      <div>Owner: Ivan Zepeda</div>
+      <div>Sprint 14 of 20</div>
+    </div>
+  </header>
+
+  <!-- Project path / direction -->
+  <div class="card direction-card">
+    <div class="section-title">Project Direction</div>
+    <p class="direction-goal">
+      <strong>North star:</strong> ship a self-serve onboarding flow that cuts time-to-first-value from 9 days to under 24 hours, then expand to team accounts.
+    </p>
+    <div class="phase-track">
+      <div class="phase done">
+        <div class="dot"></div><div class="bar"></div>
+        <div class="phase-label">Discovery</div>
+        <div class="phase-sub">Completed Apr 2026</div>
+      </div>
+      <div class="phase done">
+        <div class="dot"></div><div class="bar"></div>
+        <div class="phase-label">Design</div>
+        <div class="phase-sub">Completed May 2026</div>
+      </div>
+      <div class="phase current">
+        <div class="dot"></div><div class="bar"></div>
+        <div class="phase-label">Build</div>
+        <div class="phase-sub">In progress · 62%</div>
+      </div>
+      <div class="phase upcoming">
+        <div class="dot"></div><div class="bar"></div>
+        <div class="phase-label">Beta</div>
+        <div class="phase-sub">Target Aug 2026</div>
+      </div>
+      <div class="phase upcoming">
+        <div class="dot"></div>
+        <div class="phase-label">GA Launch</div>
+        <div class="phase-sub">Target Oct 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat tiles -->
+  <div class="stat-row">
+    <div class="stat-tile">
+      <div class="label">In progress</div>
+      <div class="value">7</div>
+      <div class="sub">across 3 workstreams</div>
+    </div>
+    <div class="stat-tile accent-critical">
+      <div class="label">High priority</div>
+      <div class="value">3</div>
+      <div class="sub">1 blocked</div>
+    </div>
+    <div class="stat-tile accent-warning">
+      <div class="label">Things to watch</div>
+      <div class="value">4</div>
+      <div class="sub">2 trending worse</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Next deadline</div>
+      <div class="value">6d</div>
+      <div class="sub">Beta invite list — Jul 9</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <!-- In progress -->
+      <div class="card">
+        <div class="section-title">In Progress <span class="count">7 active</span></div>
+
+        <div class="prog-item">
+          <div class="prog-head">
+            <span class="prog-name">Onboarding wizard — step 3 (integrations)</span>
+            <span class="prog-pct">70%</span>
+          </div>
+          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:70%; background:var(--series-blue);"></div></div>
+          <div class="prog-meta">
+            <span class="avatar" style="background:var(--series-blue);">MR</span>
+            <span>Maya R.</span>
+            <span class="tag">Frontend</span>
+          </div>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-head">
+            <span class="prog-name">Auth service rate limiting</span>
+            <span class="prog-pct">45%</span>
+          </div>
+          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:45%; background:var(--series-aqua);"></div></div>
+          <div class="prog-meta">
+            <span class="avatar" style="background:var(--series-aqua);">DK</span>
+            <span>Dan K.</span>
+            <span class="tag">Backend</span>
+          </div>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-head">
+            <span class="prog-name">Team accounts data model</span>
+            <span class="prog-pct">30%</span>
+          </div>
+          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:30%; background:var(--series-violet);"></div></div>
+          <div class="prog-meta">
+            <span class="avatar" style="background:var(--series-violet);">SL</span>
+            <span>Sara L.</span>
+            <span class="tag">Backend</span>
+          </div>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-head">
+            <span class="prog-name">Usage analytics dashboard (internal)</span>
+            <span class="prog-pct">85%</span>
+          </div>
+          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:85%; background:var(--series-blue);"></div></div>
+          <div class="prog-meta">
+            <span class="avatar" style="background:var(--series-orange);">JT</span>
+            <span>Jon T.</span>
+            <span class="tag">Data</span>
+          </div>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-head">
+            <span class="prog-name">Beta cohort recruiting</span>
+            <span class="prog-pct">55%</span>
+          </div>
+          <div class="prog-bar-track"><div class="prog-bar-fill" style="width:55%; background:var(--series-yellow);"></div></div>
+          <div class="prog-meta">
+            <span class="avatar" style="background:var(--series-magenta);">AC</span>
+            <span>Alma C.</span>
+            <span class="tag">Growth</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Upcoming deliverables -->
+      <div class="card">
+        <div class="section-title">Upcoming Deliverables &amp; Deadlines</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">Jul 9, 2026</div>
+            <div class="tl-title">Beta invite list finalized</div>
+            <div class="tl-desc">200 target accounts confirmed with Growth; hand off to email sequencing.</div>
+          </div>
+          <div class="tl-item at-risk">
+            <div class="tl-date">Jul 18, 2026</div>
+            <div class="tl-title">Integrations step feature-complete</div>
+            <div class="tl-desc">Slack + Google OAuth flows done; Salesforce connector at risk of slipping.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Jul 25, 2026</div>
+            <div class="tl-title">Load test — auth &amp; rate limiting</div>
+            <div class="tl-desc">Validate 5k concurrent sessions before opening beta signups.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Aug 4, 2026</div>
+            <div class="tl-title">Private beta opens</div>
+            <div class="tl-desc">First cohort of 200 invited accounts get access.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Oct 1, 2026</div>
+            <div class="tl-title">General availability</div>
+            <div class="tl-desc">Public launch, pricing page live, support runbooks published.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <!-- High priority -->
+      <div class="card">
+        <div class="section-title">High Priority <span class="count">3 items</span></div>
+
+        <div class="row-item">
+          <span class="badge badge-critical">Blocked</span>
+          <div class="row-body">
+            <div class="row-title">Salesforce OAuth app pending third-party review</div>
+            <div class="row-desc">Blocks the integrations step; review queue currently running ~10 business days.</div>
+            <div class="row-foot">Owner: Maya R. · Opened Jun 24</div>
+          </div>
+        </div>
+
+        <div class="row-item">
+          <span class="badge badge-serious">Due soon</span>
+          <div class="row-body">
+            <div class="row-title">Finalize pricing tiers for team accounts</div>
+            <div class="row-desc">Needed before beta invites go out so onboarding copy matches pricing.</div>
+            <div class="row-foot">Owner: Ivan Z. · Due Jul 9</div>
+          </div>
+        </div>
+
+        <div class="row-item">
+          <span class="badge badge-serious">At risk</span>
+          <div class="row-body">
+            <div class="row-title">Rate limiting perf regression under load</div>
+            <div class="row-desc">Early load tests show p95 latency 2.3x target at 3k concurrent sessions.</div>
+            <div class="row-foot">Owner: Dan K. · Flagged Jul 1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Things to watch -->
+      <div class="card">
+        <div class="section-title">Things to Watch <span class="count">4 items</span></div>
+
+        <div class="row-item">
+          <span class="badge badge-warning">Watch</span>
+          <div class="row-body">
+            <div class="row-title">Support headcount for beta launch</div>
+            <div class="row-desc">Current plan assumes 1 support rep per 100 beta accounts — untested ratio.</div>
+          </div>
+        </div>
+
+        <div class="row-item">
+          <span class="badge badge-warning">Watch</span>
+          <div class="row-body">
+            <div class="row-title">Third-party OAuth review turnaround</div>
+            <div class="row-desc">Trending slower than prior quarter; could push integrations timeline.</div>
+          </div>
+        </div>
+
+        <div class="row-item">
+          <span class="badge badge-good">Stable</span>
+          <div class="row-body">
+            <div class="row-title">Infra cost run-rate</div>
+            <div class="row-desc">Tracking 4% under budget through Q3 projections.</div>
+          </div>
+        </div>
+
+        <div class="row-item">
+          <span class="badge badge-warning">Watch</span>
+          <div class="row-body">
+            <div class="row-title">Competitor beta launch (rumored Aug)</div>
+            <div class="row-desc">Unconfirmed; monitoring for overlap with our GA window.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Open questions -->
+      <div class="card">
+        <div class="section-title">Open Questions</div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">Do team accounts share billing with individual accounts, or bill separately?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Finance + Product</span> · by Jul 11</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">Is a Salesforce connector required for beta, or can it ship post-GA?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Ivan Z.</span> · by Jul 8</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">What's the rollback plan if load testing fails on Jul 25?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Dan K.</span> · by Jul 20</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
