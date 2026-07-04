@@ -152,6 +152,128 @@
   }
 
   .direction-card { margin-bottom: 20px; }
+
+  /* ---------- Phase status list ---------- */
+  .phase-status-card { margin-bottom: 20px; }
+  .phase-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .ps-track-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .ps-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--gridline);
+  }
+  .ps-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .ps-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--gridline);
+  }
+  .ps-dot.state-done { background: var(--series-blue); }
+  .ps-dot.state-current {
+    background: var(--surface-1);
+    border: 2px solid var(--series-blue);
+    width: 6px; height: 6px;
+  }
+  .ps-dot.state-pending {
+    background: var(--surface-1);
+    border: 2px solid var(--status-warning);
+    width: 6px; height: 6px;
+  }
+  .ps-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .ps-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+  .ps-item.state-current .ps-sub { color: var(--series-blue); font-weight: 600; }
+  .ps-item.state-pending .ps-sub { color: var(--status-warning); font-weight: 600; }
+
+  /* ---------- Financial summary ---------- */
+  .fin-total {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .fin-total-sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  .fin-list { margin-top: 14px; }
+  .fin-item { padding: 7px 0; }
+  .fin-item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .fin-phase { font-size: 12.5px; font-weight: 600; color: var(--text-primary); }
+  .fin-amounts {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .fin-bar-track {
+    height: 5px;
+    background: var(--gridline);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .fin-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--series-blue);
+  }
+
+  /* ---------- Quick notes ---------- */
+  .note-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gridline);
+  }
+  .note-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .note-item:first-child { padding-top: 0; }
+  .note-bar {
+    flex-shrink: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--series-yellow);
+  }
+  .note-body { flex: 1; }
+  .note-text {
+    font-size: 12.5px;
+    color: var(--text-primary);
+    line-height: 1.45;
+    margin-bottom: 4px;
+  }
+  .note-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
   .direction-goal {
     font-size: 15px;
     color: var(--text-primary);
@@ -497,6 +619,7 @@
     .board-row { grid-template-columns: 1fr; }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
     .carousel-viewport { aspect-ratio: 16 / 9; }
+    .phase-status-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
     .kanban-board { grid-template-columns: 1fr; }
@@ -591,6 +714,29 @@
           <div class="phase-label">Scale</div>
           <div class="phase-sub">Not started</div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase status list -->
+  <div class="card phase-status-card">
+    <div class="section-title">Phase Status</div>
+    <div class="phase-status-grid" id="pdPhaseStatus">
+      <div class="phase-status-col">
+        <div class="ps-track-label">Track 1 — Self-serve onboarding</div>
+        <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Discovery</span><span class="ps-sub">Completed Apr 2026</span></div>
+        <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Design</span><span class="ps-sub">Completed May 2026</span></div>
+        <div class="ps-item state-current"><span class="ps-dot state-current"></span><span class="ps-name">Build</span><span class="ps-sub">In progress · 62%</span></div>
+        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Beta</span><span class="ps-sub">Target Aug 2026</span></div>
+        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">GA Launch</span><span class="ps-sub">Target Oct 2026</span></div>
+      </div>
+      <div class="phase-status-col">
+        <div class="ps-track-label">Track 2 — Team accounts expansion</div>
+        <div class="ps-item state-pending"><span class="ps-dot state-pending"></span><span class="ps-name">Planning</span><span class="ps-sub">Pending direction</span></div>
+        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Design</span><span class="ps-sub">Not started</span></div>
+        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Build</span><span class="ps-sub">Not started</span></div>
+        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Rollout</span><span class="ps-sub">Not started</span></div>
+        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Scale</span><span class="ps-sub">Not started</span></div>
       </div>
     </div>
   </div>
@@ -1023,6 +1169,64 @@
         </a>
         </div>
       </div>
+
+      <!-- Financial: billed vs total by phase -->
+      <div class="card">
+        <div class="section-title">Financial — Billed vs Total by Phase</div>
+        <div id="pdFinancial">
+          <div class="fin-total">$104,000 <span class="fin-total-sub">billed of $240,000 total</span></div>
+          <div class="fin-list">
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Discovery</span><span class="fin-amounts">$18,000 / $18,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:100%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Design</span><span class="fin-amounts">$32,000 / $32,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:100%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Build</span><span class="fin-amounts">$54,000 / $90,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:60%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Beta</span><span class="fin-amounts">$0 / $40,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:0%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">GA Launch</span><span class="fin-amounts">$0 / $60,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:0%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick notes -->
+      <div class="card">
+        <div class="section-title">Quick Notes</div>
+        <div id="pdNotes">
+          <div class="note-item">
+            <div class="note-bar"></div>
+            <div class="note-body">
+              <div class="note-text">Reminder: confirm team-account pricing with Finance before it's referenced in onboarding copy.</div>
+              <div class="note-meta">Ivan Z. · Jul 2</div>
+            </div>
+          </div>
+          <div class="note-item">
+            <div class="note-bar"></div>
+            <div class="note-body">
+              <div class="note-text">Beta invite batch size may need to shrink if support hiring slips past Aug 1.</div>
+              <div class="note-meta">Maya R. · Jul 1</div>
+            </div>
+          </div>
+          <div class="note-item">
+            <div class="note-bar"></div>
+            <div class="note-body">
+              <div class="note-text">Salesforce review contact confirmed responsive over email, not phone.</div>
+              <div class="note-meta">Dan K. · Jun 28</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1143,6 +1347,18 @@
           { title: "Team accounts — member list", sub: "Data model UI, early draft" },
           { title: "Beta landing page", sub: "Marketing site, signup hero draft" },
           { title: "Mobile app screens", sub: "Home + profile, design review pending" }
+        ],
+        financials: [
+          { phase: "Discovery", billed: 18000, total: 18000 },
+          { phase: "Design", billed: 32000, total: 32000 },
+          { phase: "Build", billed: 54000, total: 90000 },
+          { phase: "Beta", billed: 0, total: 40000 },
+          { phase: "GA Launch", billed: 0, total: 60000 }
+        ],
+        notes: [
+          { text: "Reminder: confirm team-account pricing with Finance before it's referenced in onboarding copy.", author: "Ivan Z.", date: "Jul 2" },
+          { text: "Beta invite batch size may need to shrink if support hiring slips past Aug 1.", author: "Maya R.", date: "Jul 1" },
+          { text: "Salesforce review contact confirmed responsive over email, not phone.", author: "Dan K.", date: "Jun 28" }
         ]
       },
       {
@@ -1215,6 +1431,18 @@
           { title: "Customer migration queue", sub: "Batch status view, early draft" },
           { title: "Dual-run status page", sub: "Internal ops page, draft" },
           { title: "Support mobile view", sub: "Ticket triage, design review pending" }
+        ],
+        financials: [
+          { phase: "Audit", billed: 22000, total: 22000 },
+          { phase: "Design", billed: 28000, total: 28000 },
+          { phase: "Build", billed: 40000, total: 100000 },
+          { phase: "Dual-run", billed: 0, total: 50000 },
+          { phase: "Cutover", billed: 0, total: 35000 }
+        ],
+        notes: [
+          { text: "Vendor confirmed API key provisioning ETA of Jul 8 — watch closely.", author: "Marcus O.", date: "Jul 3" },
+          { text: "Consider a 2-week buffer before full cutover given dunning email issues.", author: "Priya N.", date: "Jul 2" },
+          { text: "Legal flagged the data retention question — added to open questions.", author: "Priya N.", date: "Jun 29" }
         ]
       },
       {
@@ -1287,6 +1515,18 @@
           { title: "Settings — dark mode list", sub: "iOS build, early draft" },
           { title: "App Store listing draft", sub: "Marketing assets, signup hero" },
           { title: "Tablet concept screens", sub: "Home + profile, design review pending" }
+        ],
+        financials: [
+          { phase: "Research", billed: 15000, total: 15000 },
+          { phase: "IA &amp; Design", billed: 35000, total: 35000 },
+          { phase: "Build", billed: 60000, total: 80000 },
+          { phase: "App review", billed: 0, total: 20000 },
+          { phase: "Relaunch", billed: 0, total: 30000 }
+        ],
+        notes: [
+          { text: "Apple's guideline change may also affect the tablet track — flag early.", author: "Chen W.", date: "Jul 3" },
+          { text: "Beta testers loving dark mode; consider making it default-on.", author: "Renee A.", date: "Jul 1" },
+          { text: "Device lab has 2 tablets incoming next week for QA.", author: "Leah F.", date: "Jun 30" }
         ]
       }
     ];
@@ -1365,6 +1605,47 @@
         '</a>';
     }
 
+    function psItemHtml(ph) {
+      return '<div class="ps-item state-' + ph.state + '">' +
+        '<span class="ps-dot state-' + ph.state + '"></span>' +
+        '<span class="ps-name">' + ph.name + '</span>' +
+        '<span class="ps-sub">' + ph.sub + '</span>' +
+        '</div>';
+    }
+    function psColHtml(label, phases) {
+      return '<div class="phase-status-col">' +
+        '<div class="ps-track-label">' + label + '</div>' +
+        phases.map(psItemHtml).join('') +
+        '</div>';
+    }
+
+    function fmtMoney(n) {
+      return '$' + n.toLocaleString('en-US');
+    }
+    function finItemHtml(f) {
+      const pct = f.total > 0 ? Math.min(100, Math.round((f.billed / f.total) * 100)) : 0;
+      return '<div class="fin-item">' +
+        '<div class="fin-item-head"><span class="fin-phase">' + f.phase + '</span><span class="fin-amounts">' + fmtMoney(f.billed) + ' / ' + fmtMoney(f.total) + '</span></div>' +
+        '<div class="fin-bar-track"><div class="fin-bar-fill" style="width:' + pct + '%;"></div></div>' +
+        '</div>';
+    }
+    function financialHtml(financials) {
+      const totalBilled = financials.reduce((s, f) => s + f.billed, 0);
+      const totalAll = financials.reduce((s, f) => s + f.total, 0);
+      return '<div class="fin-total">' + fmtMoney(totalBilled) + ' <span class="fin-total-sub">billed of ' + fmtMoney(totalAll) + ' total</span></div>' +
+        '<div class="fin-list">' + financials.map(finItemHtml).join('') + '</div>';
+    }
+
+    function noteHtml(n) {
+      return '<div class="note-item">' +
+        '<div class="note-bar"></div>' +
+        '<div class="note-body">' +
+        '<div class="note-text">' + n.text + '</div>' +
+        '<div class="note-meta">' + n.author + ' · ' + n.date + '</div>' +
+        '</div>' +
+        '</div>';
+    }
+
     function render(idx) {
       const p = PROJECTS[idx];
 
@@ -1390,6 +1671,11 @@
 
       document.getElementById('pdQuestions').innerHTML = p.questions.map(questionHtml).join('');
       document.getElementById('pdResources').innerHTML = p.resources.map(resourceHtml).join('');
+      document.getElementById('pdFinancial').innerHTML = financialHtml(p.financials);
+      document.getElementById('pdNotes').innerHTML = p.notes.map(noteHtml).join('');
+
+      document.getElementById('pdPhaseStatus').innerHTML =
+        psColHtml(p.track1.label, p.track1.phases) + psColHtml(p.track2.label, p.track2.phases);
 
       const captionNodes = document.querySelectorAll('#carouselTrack .carousel-slide');
       captionNodes.forEach((slide, i) => {
