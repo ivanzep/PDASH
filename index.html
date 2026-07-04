@@ -95,6 +95,34 @@
   }
   .meta-block div { margin-bottom: 4px; }
 
+  .project-switcher {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .switch-btn {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-1);
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .switch-btn:hover { background: var(--surface-2); }
+  .switch-count {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .switch-count strong { color: var(--text-secondary); }
+
   /* ---------- Direction / phase tracker ---------- */
   .card {
     background: var(--surface-1);
@@ -482,26 +510,31 @@
 
   <header class="top">
     <div class="title-block">
-      <h1>Atlas — Project Dashboard</h1>
-      <p>Single view of where the project is headed, what's moving, what needs attention, and what's due next.</p>
+      <div class="project-switcher">
+        <button id="prevProject" class="switch-btn" type="button" aria-label="Previous project">‹</button>
+        <span class="switch-count">Project <strong id="switchIndex">1</strong> of <span id="switchTotal">3</span></span>
+        <button id="nextProject" class="switch-btn" type="button" aria-label="Next project">›</button>
+      </div>
+      <h1 id="pdTitle">Atlas — Project Dashboard</h1>
+      <p id="pdTagline">Single view of where the project is headed, what's moving, what needs attention, and what's due next.</p>
     </div>
     <div class="meta-block">
-      <div>Last updated: Jul 3, 2026 · 9:12 AM</div>
-      <div>Owner: Ivan Zepeda</div>
-      <div>Sprint 14 of 20</div>
+      <div id="pdMetaUpdated">Last updated: Jul 3, 2026 · 9:12 AM</div>
+      <div id="pdMetaOwner">Owner: Ivan Zepeda</div>
+      <div id="pdMetaSprint">Sprint 14 of 20</div>
     </div>
   </header>
 
   <!-- Project path / direction -->
   <div class="card direction-card">
     <div class="section-title">Project Direction</div>
-    <p class="direction-goal">
+    <p class="direction-goal" id="pdNorthStar">
       <strong>North star:</strong> ship a self-serve onboarding flow that cuts time-to-first-value from 9 days to under 24 hours, then expand to team accounts.
     </p>
 
     <div class="track">
-      <div class="track-label">Track 1 — Self-serve onboarding</div>
-      <div class="phase-track">
+      <div class="track-label" id="pdTrack1Label">Track 1 — Self-serve onboarding</div>
+      <div class="phase-track" id="pdTrack1Phases">
         <div class="phase done">
           <div class="dot"></div><div class="bar"></div>
           <div class="phase-label">Discovery</div>
@@ -531,8 +564,8 @@
     </div>
 
     <div class="track">
-      <div class="track-label">Track 2 — Team accounts expansion</div>
-      <div class="phase-track">
+      <div class="track-label" id="pdTrack2Label">Track 2 — Team accounts expansion</div>
+      <div class="phase-track" id="pdTrack2Phases">
         <div class="phase pending">
           <div class="dot"></div><div class="bar"></div>
           <div class="phase-label">Planning</div>
@@ -567,7 +600,7 @@
   <!-- Kanban board -->
   <div class="card board-card">
     <div class="section-title">Board</div>
-    <div class="kanban-board">
+    <div class="kanban-board" id="pdBoard">
 
       <!-- In Progress -->
       <div class="kanban-col">
@@ -740,6 +773,7 @@
       <div class="card">
         <div class="section-title">Open Questions</div>
 
+        <div id="pdQuestions">
         <div class="q-item">
           <span class="q-mark">?</span>
           <div class="q-body">
@@ -762,6 +796,7 @@
             <div class="q-title">What's the rollback plan if load testing fails on Jul 25?</div>
             <div class="q-foot">Needs: <span class="q-owner">Dan K.</span> · by Jul 20</div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -941,6 +976,7 @@
       <div class="card">
         <div class="section-title">Resources &amp; Links</div>
 
+        <div id="pdResources">
         <a class="link-item" href="#" target="_blank" rel="noopener">
           <span class="link-icon" style="background:var(--series-blue);">PR</span>
           <div class="link-body">
@@ -985,6 +1021,7 @@
           </div>
           <span class="link-arrow">↗</span>
         </a>
+        </div>
       </div>
     </div>
   </div>
@@ -1020,6 +1057,7 @@
       restart();
     }
     window.carouselMove = (delta) => goTo(index + delta);
+    window.carouselReset = () => goTo(0);
     function restart() {
       clearInterval(timer);
       timer = setInterval(() => goTo(index + 1), 4500);
@@ -1030,6 +1068,352 @@
 
     render();
     restart();
+  })();
+</script>
+<script>
+  (function () {
+    const PROJECTS = [
+      {
+        name: "Atlas — Project Dashboard",
+        tagline: "Single view of where the project is headed, what's moving, what needs attention, and what's due next.",
+        meta: { updated: "Last updated: Jul 3, 2026 · 9:12 AM", owner: "Owner: Ivan Zepeda", sprint: "Sprint 14 of 20" },
+        northStar: "ship a self-serve onboarding flow that cuts time-to-first-value from 9 days to under 24 hours, then expand to team accounts.",
+        track1: {
+          label: "Track 1 — Self-serve onboarding",
+          phases: [
+            { state: "done", name: "Discovery", sub: "Completed Apr 2026" },
+            { state: "done", name: "Design", sub: "Completed May 2026" },
+            { state: "current", name: "Build", sub: "In progress · 62%" },
+            { state: "upcoming", name: "Beta", sub: "Target Aug 2026" },
+            { state: "upcoming", name: "GA Launch", sub: "Target Oct 2026" }
+          ]
+        },
+        track2: {
+          label: "Track 2 — Team accounts expansion",
+          phases: [
+            { state: "pending", name: "Planning", sub: "Pending direction" },
+            { state: "upcoming", name: "Design", sub: "Not started" },
+            { state: "upcoming", name: "Build", sub: "Not started" },
+            { state: "upcoming", name: "Rollout", sub: "Not started" },
+            { state: "upcoming", name: "Scale", sub: "Not started" }
+          ]
+        },
+        board: {
+          progress: { count: 5, items: [
+            { title: "Onboarding wizard — step 3 (integrations)", avatarColor: "--series-blue", initials: "MR", owner: "Maya R.", tag: "Frontend", badgeClass: "badge-good", badgeText: "On track" },
+            { title: "Auth service rate limiting", avatarColor: "--series-aqua", initials: "DK", owner: "Dan K.", tag: "Backend", badgeClass: "badge-serious", badgeText: "At risk" },
+            { title: "Team accounts data model", avatarColor: "--series-violet", initials: "SL", owner: "Sara L.", tag: "Backend", badgeClass: "badge-good", badgeText: "On track" },
+            { title: "Usage analytics dashboard (internal)", avatarColor: "--series-orange", initials: "JT", owner: "Jon T.", tag: "Data", badgeClass: "badge-good", badgeText: "Nearly done" },
+            { title: "Beta cohort recruiting", avatarColor: "--series-magenta", initials: "AC", owner: "Alma C.", tag: "Growth", badgeClass: "badge-good", badgeText: "On track" }
+          ]},
+          priority: { count: 3, items: [
+            { badgeClass: "badge-critical", badgeText: "Blocked", title: "Salesforce OAuth app pending third-party review", desc: "Blocks the integrations step; review queue currently running ~10 business days.", foot: "Owner: Maya R. · Opened Jun 24" },
+            { badgeClass: "badge-serious", badgeText: "Due soon", title: "Finalize pricing tiers for team accounts", desc: "Needed before beta invites go out so onboarding copy matches pricing.", foot: "Owner: Ivan Z. · Due Jul 9" },
+            { badgeClass: "badge-serious", badgeText: "At risk", title: "Rate limiting perf regression under load", desc: "Early load tests show p95 latency 2.3x target at 3k concurrent sessions.", foot: "Owner: Dan K. · Flagged Jul 1" }
+          ]},
+          watch: { count: 4, items: [
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Support headcount for beta launch", desc: "Current plan assumes 1 support rep per 100 beta accounts — untested ratio." },
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Third-party OAuth review turnaround", desc: "Trending slower than prior quarter; could push integrations timeline." },
+            { badgeClass: "badge-good", badgeText: "Stable", title: "Infra cost run-rate", desc: "Tracking 4% under budget through Q3 projections." },
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Competitor beta launch (rumored Aug)", desc: "Unconfirmed; monitoring for overlap with our GA window." }
+          ]},
+          upcoming: { count: 5, items: [
+            { date: "Jul 9, 2026", title: "Beta invite list finalized", desc: "200 target accounts confirmed with Growth; hand off to email sequencing." },
+            { date: "Jul 18, 2026", title: "Integrations step feature-complete", desc: "Slack + Google OAuth flows done; Salesforce connector at risk of slipping.", badgeClass: "badge-serious", badgeText: "At risk" },
+            { date: "Jul 25, 2026", title: "Load test — auth &amp; rate limiting", desc: "Validate 5k concurrent sessions before opening beta signups." },
+            { date: "Aug 4, 2026", title: "Private beta opens", desc: "First cohort of 200 invited accounts get access." },
+            { date: "Oct 1, 2026", title: "General availability", desc: "Public launch, pricing page live, support runbooks published." }
+          ]}
+        },
+        questions: [
+          { title: "Do team accounts share billing with individual accounts, or bill separately?", needsWho: "Finance + Product", needsBy: "Jul 11" },
+          { title: "Is a Salesforce connector required for beta, or can it ship post-GA?", needsWho: "Ivan Z.", needsBy: "Jul 8" },
+          { title: "What's the rollback plan if load testing fails on Jul 25?", needsWho: "Dan K.", needsBy: "Jul 20" }
+        ],
+        resources: [
+          { color: "--series-blue", initials: "PR", title: "Product requirements doc", url: "docs.google.com/onboarding-prd" },
+          { color: "--series-violet", initials: "FG", title: "Figma — onboarding &amp; beta flows", url: "figma.com/file/atlas-onboarding" },
+          { color: "--series-aqua", initials: "GH", title: "Repository — atlas-onboarding", url: "github.com/ivanzep/atlas-onboarding" },
+          { color: "--series-orange", initials: "AN", title: "Analytics — beta funnel dashboard", url: "amplitude.com/atlas/beta-funnel" },
+          { color: "--series-magenta", initials: "SL", title: "Slack — #atlas-onboarding", url: "app.slack.com/atlas-onboarding" }
+        ],
+        snapshots: [
+          { title: "Onboarding wizard — step 3", sub: "Integrations screen, current build" },
+          { title: "Usage analytics dashboard", sub: "Internal tool, weekly active accounts view" },
+          { title: "Team accounts — member list", sub: "Data model UI, early draft" },
+          { title: "Beta landing page", sub: "Marketing site, signup hero draft" },
+          { title: "Mobile app screens", sub: "Home + profile, design review pending" }
+        ]
+      },
+      {
+        name: "Nimbus — Billing Migration",
+        tagline: "Tracking the move off the legacy billing system, what's shipping now, and what could slip the cutover.",
+        meta: { updated: "Last updated: Jul 4, 2026 · 8:40 AM", owner: "Owner: Priya N.", sprint: "Sprint 6 of 12" },
+        northStar: "migrate every active subscription off the legacy billing system onto Stripe Billing with zero missed charges, then retire the old system.",
+        track1: {
+          label: "Track 1 — Stripe migration",
+          phases: [
+            { state: "done", name: "Audit", sub: "Completed May 2026" },
+            { state: "done", name: "Design", sub: "Completed Jun 2026" },
+            { state: "current", name: "Build", sub: "In progress · 40%" },
+            { state: "upcoming", name: "Dual-run", sub: "Target Aug 2026" },
+            { state: "upcoming", name: "Cutover", sub: "Target Sep 2026" }
+          ]
+        },
+        track2: {
+          label: "Track 2 — Legacy system retirement",
+          phases: [
+            { state: "pending", name: "Planning", sub: "Pending direction" },
+            { state: "upcoming", name: "Data archive", sub: "Not started" },
+            { state: "upcoming", name: "Decommission", sub: "Not started" },
+            { state: "upcoming", name: "Cost teardown", sub: "Not started" },
+            { state: "upcoming", name: "Sign-off", sub: "Not started" }
+          ]
+        },
+        board: {
+          progress: { count: 5, items: [
+            { title: "Stripe webhook handler — invoice sync", avatarColor: "--series-blue", initials: "PN", owner: "Priya N.", tag: "Backend", badgeClass: "badge-good", badgeText: "On track" },
+            { title: "Dunning email templates", avatarColor: "--series-aqua", initials: "WK", owner: "Well K.", tag: "Lifecycle", badgeClass: "badge-serious", badgeText: "At risk" },
+            { title: "Proration logic parity tests", avatarColor: "--series-violet", initials: "MO", owner: "Marcus O.", tag: "Backend", badgeClass: "badge-good", badgeText: "On track" },
+            { title: "Finance reconciliation dashboard", avatarColor: "--series-orange", initials: "PN", owner: "Priya N.", tag: "Data", badgeClass: "badge-good", badgeText: "Nearly done" },
+            { title: "Sandbox migration dry-run", avatarColor: "--series-magenta", initials: "TR", owner: "Tomas R.", tag: "QA", badgeClass: "badge-good", badgeText: "On track" }
+          ]},
+          priority: { count: 3, items: [
+            { badgeClass: "badge-critical", badgeText: "Blocked", title: "Legacy tax engine export blocked on vendor API keys", desc: "Vendor hasn't provisioned production credentials; blocks final parity test.", foot: "Owner: Marcus O. · Opened Jun 28" },
+            { badgeClass: "badge-serious", badgeText: "Due soon", title: "Get finance sign-off on proration policy", desc: "Needed before dual-run starts so mid-cycle charges match exactly.", foot: "Owner: Priya N. · Due Jul 10" },
+            { badgeClass: "badge-serious", badgeText: "At risk", title: "Dunning email deliverability dropped in sandbox", desc: "Open rate down 15% in test batch; suspect sender domain reputation.", foot: "Owner: Well K. · Flagged Jul 2" }
+          ]},
+          watch: { count: 4, items: [
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Support ticket volume during dual-run", desc: "Two billing systems running in parallel could confuse customers." },
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Stripe rate limits under peak invoicing load", desc: "Month-end invoice runs approach current API rate ceiling." },
+            { badgeClass: "badge-good", badgeText: "Stable", title: "Data reconciliation accuracy", desc: "Tracking 99.98% match rate across the latest test batch." },
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Vendor tax engine contract renewal", desc: "Renewal falls mid-migration; could affect export access." }
+          ]},
+          upcoming: { count: 5, items: [
+            { date: "Jul 10, 2026", title: "Proration policy sign-off", desc: "Finance confirms how mid-cycle plan changes are billed." },
+            { date: "Jul 22, 2026", title: "Dual-run starts (legacy + Stripe in parallel)", desc: "Both systems invoice the same test cohort for comparison.", badgeClass: "badge-serious", badgeText: "At risk" },
+            { date: "Aug 5, 2026", title: "First live customer batch cut over", desc: "Smallest-volume segment moves fully onto Stripe Billing." },
+            { date: "Aug 26, 2026", title: "Full customer base cut over", desc: "Remaining subscriptions migrate off the legacy system." },
+            { date: "Sep 15, 2026", title: "Legacy billing system decommissioned", desc: "Final data archive complete; legacy system powered down." }
+          ]}
+        },
+        questions: [
+          { title: "Do we refund or credit customers for mid-cycle proration differences?", needsWho: "Finance + Support", needsBy: "Jul 12" },
+          { title: "Which currencies launch in wave 1 vs wave 2?", needsWho: "Priya N.", needsBy: "Jul 15" },
+          { title: "Who owns the legacy data retention policy after decommission?", needsWho: "Legal", needsBy: "Aug 1" }
+        ],
+        resources: [
+          { color: "--series-blue", initials: "MR", title: "Migration runbook", url: "docs.google.com/nimbus-runbook" },
+          { color: "--series-violet", initials: "SP", title: "Stripe integration spec", url: "figma.com/file/nimbus-stripe-spec" },
+          { color: "--series-aqua", initials: "GH", title: "Repository — nimbus-billing", url: "github.com/ivanzep/nimbus-billing" },
+          { color: "--series-orange", initials: "RD", title: "Reconciliation dashboard", url: "amplitude.com/nimbus/reconciliation" },
+          { color: "--series-magenta", initials: "SL", title: "Slack — #nimbus-billing", url: "app.slack.com/nimbus-billing" }
+        ],
+        snapshots: [
+          { title: "Migration wizard — step 2", sub: "Legacy → Stripe field mapping" },
+          { title: "Reconciliation dashboard", sub: "Daily match-rate tracking" },
+          { title: "Customer migration queue", sub: "Batch status view, early draft" },
+          { title: "Dual-run status page", sub: "Internal ops page, draft" },
+          { title: "Support mobile view", sub: "Ticket triage, design review pending" }
+        ]
+      },
+      {
+        name: "Helios — Mobile Redesign",
+        tagline: "Tracking the ground-up redesign of the mobile app, from new IA to the App Store relaunch.",
+        meta: { updated: "Last updated: Jul 2, 2026 · 4:15 PM", owner: "Owner: Renee A.", sprint: "Sprint 9 of 14" },
+        northStar: "relaunch the mobile app with simplified navigation and dark mode, cutting average task time by 30%, then extend the design system to tablet.",
+        track1: {
+          label: "Track 1 — App redesign",
+          phases: [
+            { state: "done", name: "Research", sub: "Completed Mar 2026" },
+            { state: "done", name: "IA &amp; Design", sub: "Completed Jun 2026" },
+            { state: "current", name: "Build", sub: "In progress · 75%" },
+            { state: "upcoming", name: "App review", sub: "Target Aug 2026" },
+            { state: "upcoming", name: "Relaunch", sub: "Target Sep 2026" }
+          ]
+        },
+        track2: {
+          label: "Track 2 — Tablet extension",
+          phases: [
+            { state: "pending", name: "Planning", sub: "Pending direction" },
+            { state: "upcoming", name: "Design", sub: "Not started" },
+            { state: "upcoming", name: "Build", sub: "Not started" },
+            { state: "upcoming", name: "Beta", sub: "Not started" },
+            { state: "upcoming", name: "Launch", sub: "Not started" }
+          ]
+        },
+        board: {
+          progress: { count: 5, items: [
+            { title: "Dark mode theming pass", avatarColor: "--series-blue", initials: "RA", owner: "Renee A.", tag: "Design", badgeClass: "badge-good", badgeText: "Nearly done" },
+            { title: "New tab bar navigation", avatarColor: "--series-aqua", initials: "CW", owner: "Chen W.", tag: "iOS", badgeClass: "badge-good", badgeText: "On track" },
+            { title: "Push notification opt-in redesign", avatarColor: "--series-violet", initials: "LF", owner: "Leah F.", tag: "Android", badgeClass: "badge-good", badgeText: "On track" },
+            { title: "Onboarding carousel rebuild", avatarColor: "--series-orange", initials: "CW", owner: "Chen W.", tag: "iOS", badgeClass: "badge-serious", badgeText: "At risk" },
+            { title: "Accessibility audit fixes", avatarColor: "--series-magenta", initials: "RA", owner: "Renee A.", tag: "Design", badgeClass: "badge-good", badgeText: "On track" }
+          ]},
+          priority: { count: 3, items: [
+            { badgeClass: "badge-critical", badgeText: "Blocked", title: "App Store guideline change blocks new permission flow", desc: "Apple updated its permissions policy; the notification opt-in screen needs rework.", foot: "Owner: Chen W. · Opened Jun 30" },
+            { badgeClass: "badge-serious", badgeText: "Due soon", title: "Finalize App Store screenshots and copy", desc: "Marketing assets need to be locked before the review submission.", foot: "Owner: Renee A. · Due Jul 11" },
+            { badgeClass: "badge-serious", badgeText: "At risk", title: "Onboarding carousel animation jank on older Android devices", desc: "Frame drops observed on devices 3+ years old in beta testing.", foot: "Owner: Leah F. · Flagged Jul 3" }
+          ]},
+          watch: { count: 4, items: [
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Crash rate on redesigned tab bar in beta", desc: "Slightly elevated vs. the old navigation; investigating root cause." },
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "App Store review turnaround time", desc: "Recent submissions from other teams are taking longer than usual." },
+            { badgeClass: "badge-good", badgeText: "Stable", title: "Beta tester satisfaction score", desc: "Holding at 4.6 / 5 across 300 testers." },
+            { badgeClass: "badge-warning", badgeText: "Watch", title: "Tablet hardware availability for QA", desc: "Limited device lab stock could delay tablet track kickoff." }
+          ]},
+          upcoming: { count: 5, items: [
+            { date: "Jul 11, 2026", title: "App Store screenshots finalized", desc: "Marketing copy and imagery locked for submission." },
+            { date: "Jul 20, 2026", title: "Closed beta expands to 1,000 testers", desc: "Broader rollout to catch device- and locale-specific issues." },
+            { date: "Aug 1, 2026", title: "App Store review submission", desc: "Full build submitted for review ahead of relaunch.", badgeClass: "badge-serious", badgeText: "At risk" },
+            { date: "Aug 20, 2026", title: "Public relaunch", desc: "Redesigned app rolls out to all users." },
+            { date: "Sep 10, 2026", title: "Tablet design kickoff", desc: "Design system extension work begins for tablet layouts." }
+          ]}
+        },
+        questions: [
+          { title: "Do we keep the legacy navigation as an opt-out for existing users?", needsWho: "Product + Design", needsBy: "Jul 14" },
+          { title: "Is dark mode default-on for new installs?", needsWho: "Renee A.", needsBy: "Jul 9" },
+          { title: "Which tablet sizes do we support first?", needsWho: "Chen W.", needsBy: "Aug 1" }
+        ],
+        resources: [
+          { color: "--series-blue", initials: "FG", title: "Design system — Figma", url: "figma.com/file/helios-design-system" },
+          { color: "--series-violet", initials: "PR", title: "PRD — mobile redesign", url: "docs.google.com/helios-prd" },
+          { color: "--series-aqua", initials: "GH", title: "Repository — helios-app", url: "github.com/ivanzep/helios-app" },
+          { color: "--series-orange", initials: "BF", title: "Beta feedback dashboard", url: "amplitude.com/helios/beta-feedback" },
+          { color: "--series-magenta", initials: "SL", title: "Slack — #helios-redesign", url: "app.slack.com/helios-redesign" }
+        ],
+        snapshots: [
+          { title: "Onboarding carousel — step 2", sub: "New IA, current build" },
+          { title: "Beta feedback dashboard", sub: "Internal tool, satisfaction trend" },
+          { title: "Settings — dark mode list", sub: "iOS build, early draft" },
+          { title: "App Store listing draft", sub: "Marketing assets, signup hero" },
+          { title: "Tablet concept screens", sub: "Home + profile, design review pending" }
+        ]
+      }
+    ];
+
+    let current = 0;
+
+    function phaseHtml(p) {
+      return '<div class="phase ' + p.state + '">' +
+        '<div class="dot"></div><div class="bar"></div>' +
+        '<div class="phase-label">' + p.name + '</div>' +
+        '<div class="phase-sub">' + p.sub + '</div>' +
+        '</div>';
+    }
+
+    function progressCardHtml(item) {
+      return '<div class="k-card">' +
+        '<div class="k-card-title">' + item.title + '</div>' +
+        '<div class="k-card-meta">' +
+        '<span class="avatar" style="background:var(' + item.avatarColor + ');">' + item.initials + '</span>' +
+        '<span>' + item.owner + '</span>' +
+        '<span class="tag">' + item.tag + '</span>' +
+        '</div>' +
+        '<div class="k-card-foot"><span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span></div>' +
+        '</div>';
+    }
+    function priorityCardHtml(item) {
+      return '<div class="k-card">' +
+        '<span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span>' +
+        '<div class="k-card-title">' + item.title + '</div>' +
+        '<div class="k-card-desc">' + item.desc + '</div>' +
+        '<div class="k-card-foot">' + item.foot + '</div>' +
+        '</div>';
+    }
+    function watchCardHtml(item) {
+      return '<div class="k-card">' +
+        '<span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span>' +
+        '<div class="k-card-title">' + item.title + '</div>' +
+        '<div class="k-card-desc">' + item.desc + '</div>' +
+        '</div>';
+    }
+    function upcomingCardHtml(item) {
+      return '<div class="k-card">' +
+        '<span class="k-date">' + item.date + '</span>' +
+        '<div class="k-card-title">' + item.title + '</div>' +
+        '<div class="k-card-desc">' + item.desc + '</div>' +
+        (item.badgeText ? '<div class="k-card-foot"><span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span></div>' : '') +
+        '</div>';
+    }
+    function columnHtml(colorVar, title, count, cardsHtml) {
+      return '<div class="kanban-col">' +
+        '<div class="kanban-col-head" style="--col-color:var(' + colorVar + ');">' +
+        '<span class="kanban-col-dot"></span>' +
+        '<span class="kanban-col-title">' + title + '</span>' +
+        '<span class="kanban-col-count">' + count + '</span>' +
+        '</div>' +
+        cardsHtml +
+        '</div>';
+    }
+    function questionHtml(q) {
+      return '<div class="q-item">' +
+        '<span class="q-mark">?</span>' +
+        '<div class="q-body">' +
+        '<div class="q-title">' + q.title + '</div>' +
+        '<div class="q-foot">Needs: <span class="q-owner">' + q.needsWho + '</span> · by ' + q.needsBy + '</div>' +
+        '</div>' +
+        '</div>';
+    }
+    function resourceHtml(r) {
+      return '<a class="link-item" href="#" target="_blank" rel="noopener">' +
+        '<span class="link-icon" style="background:var(' + r.color + ');">' + r.initials + '</span>' +
+        '<div class="link-body">' +
+        '<div class="link-title">' + r.title + '</div>' +
+        '<div class="link-url">' + r.url + '</div>' +
+        '</div>' +
+        '<span class="link-arrow">↗</span>' +
+        '</a>';
+    }
+
+    function render(idx) {
+      const p = PROJECTS[idx];
+
+      document.getElementById('pdTitle').textContent = p.name;
+      document.getElementById('pdTagline').textContent = p.tagline;
+      document.getElementById('pdMetaUpdated').textContent = p.meta.updated;
+      document.getElementById('pdMetaOwner').textContent = p.meta.owner;
+      document.getElementById('pdMetaSprint').textContent = p.meta.sprint;
+
+      document.getElementById('pdNorthStar').innerHTML = '<strong>North star:</strong> ' + p.northStar;
+
+      document.getElementById('pdTrack1Label').textContent = p.track1.label;
+      document.getElementById('pdTrack1Phases').innerHTML = p.track1.phases.map(phaseHtml).join('');
+      document.getElementById('pdTrack2Label').textContent = p.track2.label;
+      document.getElementById('pdTrack2Phases').innerHTML = p.track2.phases.map(phaseHtml).join('');
+
+      const b = p.board;
+      document.getElementById('pdBoard').innerHTML =
+        columnHtml('--series-blue', 'In Progress', b.progress.count, b.progress.items.map(progressCardHtml).join('')) +
+        columnHtml('--status-critical', 'High Priority', b.priority.count, b.priority.items.map(priorityCardHtml).join('')) +
+        columnHtml('--status-warning', 'Things to Watch', b.watch.count, b.watch.items.map(watchCardHtml).join('')) +
+        columnHtml('--series-violet', 'Upcoming', b.upcoming.count, b.upcoming.items.map(upcomingCardHtml).join(''));
+
+      document.getElementById('pdQuestions').innerHTML = p.questions.map(questionHtml).join('');
+      document.getElementById('pdResources').innerHTML = p.resources.map(resourceHtml).join('');
+
+      const captionNodes = document.querySelectorAll('#carouselTrack .carousel-slide');
+      captionNodes.forEach((slide, i) => {
+        const snap = p.snapshots[i];
+        if (!snap) return;
+        slide.querySelector('.cc-title').textContent = snap.title;
+        slide.querySelector('.cc-sub').textContent = snap.sub;
+      });
+      if (window.carouselReset) window.carouselReset();
+
+      document.getElementById('switchIndex').textContent = idx + 1;
+      document.getElementById('switchTotal').textContent = PROJECTS.length;
+    }
+
+    document.getElementById('prevProject').addEventListener('click', () => {
+      current = (current - 1 + PROJECTS.length) % PROJECTS.length;
+      render(current);
+    });
+    document.getElementById('nextProject').addEventListener('click', () => {
+      current = (current + 1) % PROJECTS.length;
+      render(current);
+    });
+
+    render(current);
   })();
 </script>
 </body>
