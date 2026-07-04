@@ -152,19 +152,19 @@
   }
 
   .direction-row {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 5fr 1fr;
     gap: 20px;
     margin-bottom: 20px;
   }
   .direction-card { margin-bottom: 0; }
 
-  /* ---------- Phase status list (independent of tracks) ---------- */
-  .phase-status-card { margin-bottom: 0; }
+  /* ---------- Phase status list (independent of tracks, 1/6 width) ---------- */
+  .phase-status-card { margin-bottom: 0; padding: 16px 14px; }
   .ps-item {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 0;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
     border-bottom: 1px solid var(--gridline);
   }
   .ps-item:last-child { border-bottom: none; padding-bottom: 0; }
@@ -172,6 +172,7 @@
     width: 8px; height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
+    margin-top: 3px;
     background: var(--gridline);
   }
   .ps-dot.state-done { background: var(--series-blue); }
@@ -185,57 +186,63 @@
     border: 2px solid var(--status-warning);
     width: 6px; height: 6px;
   }
+  .ps-item-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
   .ps-name {
-    flex: 1;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--text-primary);
   }
   .ps-sub {
-    font-size: 11.5px;
+    font-size: 10.5px;
     color: var(--text-muted);
-    text-align: right;
   }
   .ps-item.state-current .ps-sub { color: var(--series-blue); font-weight: 600; }
   .ps-item.state-pending .ps-sub { color: var(--status-warning); font-weight: 600; }
 
-  /* ---------- Financial summary ---------- */
+  /* ---------- Financial summary (compact) ---------- */
+  .fin-card { padding: 14px 16px; }
+  .fin-card .section-title { font-size: 11px; margin-bottom: 10px; }
   .fin-total {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: -0.01em;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
   }
   .fin-total-sub {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--text-muted);
   }
-  .fin-list { margin-top: 14px; }
-  .fin-item { padding: 7px 0; }
+  .fin-list { margin-top: 10px; }
+  .fin-item { padding: 4px 0; }
   .fin-item-head {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 8px;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
   }
-  .fin-phase { font-size: 12.5px; font-weight: 600; color: var(--text-primary); }
+  .fin-phase { font-size: 11.5px; font-weight: 600; color: var(--text-primary); }
   .fin-amounts {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
   .fin-bar-track {
-    height: 5px;
+    height: 4px;
     background: var(--gridline);
-    border-radius: 3px;
+    border-radius: 2px;
     overflow: hidden;
   }
   .fin-bar-fill {
     height: 100%;
-    border-radius: 3px;
+    border-radius: 2px;
     background: var(--series-blue);
   }
 
@@ -420,34 +427,20 @@
     background: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 12px 13px;
-    margin-bottom: 10px;
+    padding: 9px 11px;
+    margin-bottom: 8px;
   }
   .k-card:last-child { margin-bottom: 0; }
   .k-card-title {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     line-height: 1.35;
-    margin-bottom: 6px;
   }
+  .k-card-title:not(:last-child) { margin-bottom: 4px; }
   .k-card-desc {
     font-size: 11.5px;
     color: var(--text-secondary);
     line-height: 1.4;
-    margin-bottom: 8px;
-  }
-  .k-card-meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .k-card-foot {
-    margin-top: 8px;
-    font-size: 10.5px;
-    color: var(--text-muted);
   }
   .k-date {
     display: block;
@@ -458,7 +451,6 @@
     color: var(--text-muted);
     margin-bottom: 6px;
   }
-  .k-card .badge { margin-bottom: 8px; }
 
   /* ---------- Image carousel ---------- */
   .carousel-card { margin-bottom: 20px; padding: 16px; }
@@ -538,44 +530,6 @@
   .col { display: flex; flex-direction: column; gap: 20px; }
   .board-row { grid-template-columns: 1fr 1fr; margin-bottom: 20px; }
 
-  .tag {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-  }
-  .avatar {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: var(--series-violet);
-    color: white;
-    font-size: 9px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  /* ---------- Status badges (used inside kanban cards) ---------- */
-  .badge {
-    flex-shrink: 0;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 6px;
-    line-height: 1.4;
-    white-space: nowrap;
-  }
-  .badge-critical { background: var(--status-critical-bg); color: var(--status-critical); }
-  .badge-serious  { background: var(--status-serious-bg); color: var(--status-serious); }
-  .badge-warning  { background: var(--status-warning-bg); color: var(--status-warning); }
-  .badge-good     { background: var(--status-good-bg); color: var(--status-good); }
 
   /* ---------- Open questions ---------- */
   .q-item {
@@ -752,12 +706,12 @@
   <div class="card phase-status-card">
     <div class="section-title">Phase Status</div>
     <div id="pdPhaseStatus">
-      <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Kickoff</span><span class="ps-sub">Done</span></div>
-      <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Scoping</span><span class="ps-sub">Done</span></div>
-      <div class="ps-item state-current"><span class="ps-dot state-current"></span><span class="ps-name">Build</span><span class="ps-sub">In progress</span></div>
-      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Internal QA</span><span class="ps-sub">Not started</span></div>
-      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Stakeholder review</span><span class="ps-sub">Not started</span></div>
-      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Ship</span><span class="ps-sub">Not started</span></div>
+      <div class="ps-item state-done"><span class="ps-dot state-done"></span><div class="ps-item-body"><span class="ps-name">Kickoff</span><span class="ps-sub">Done</span></div></div>
+      <div class="ps-item state-done"><span class="ps-dot state-done"></span><div class="ps-item-body"><span class="ps-name">Scoping</span><span class="ps-sub">Done</span></div></div>
+      <div class="ps-item state-current"><span class="ps-dot state-current"></span><div class="ps-item-body"><span class="ps-name">Build</span><span class="ps-sub">In progress</span></div></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Internal QA</span><span class="ps-sub">Not started</span></div></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Stakeholder review</span><span class="ps-sub">Not started</span></div></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Ship</span><span class="ps-sub">Not started</span></div></div>
     </div>
   </div>
   </div>
@@ -779,52 +733,22 @@
 
         <div class="k-card">
           <div class="k-card-title">Onboarding wizard — step 3 (integrations)</div>
-          <div class="k-card-meta">
-            <span class="avatar" style="background:var(--series-blue);">MR</span>
-            <span>Maya R.</span>
-            <span class="tag">Frontend</span>
-          </div>
-          <div class="k-card-foot"><span class="badge badge-good">On track</span></div>
         </div>
 
         <div class="k-card">
           <div class="k-card-title">Auth service rate limiting</div>
-          <div class="k-card-meta">
-            <span class="avatar" style="background:var(--series-aqua);">DK</span>
-            <span>Dan K.</span>
-            <span class="tag">Backend</span>
-          </div>
-          <div class="k-card-foot"><span class="badge badge-serious">At risk</span></div>
         </div>
 
         <div class="k-card">
           <div class="k-card-title">Team accounts data model</div>
-          <div class="k-card-meta">
-            <span class="avatar" style="background:var(--series-violet);">SL</span>
-            <span>Sara L.</span>
-            <span class="tag">Backend</span>
-          </div>
-          <div class="k-card-foot"><span class="badge badge-good">On track</span></div>
         </div>
 
         <div class="k-card">
           <div class="k-card-title">Usage analytics dashboard (internal)</div>
-          <div class="k-card-meta">
-            <span class="avatar" style="background:var(--series-orange);">JT</span>
-            <span>Jon T.</span>
-            <span class="tag">Data</span>
-          </div>
-          <div class="k-card-foot"><span class="badge badge-good">Nearly done</span></div>
         </div>
 
         <div class="k-card">
           <div class="k-card-title">Beta cohort recruiting</div>
-          <div class="k-card-meta">
-            <span class="avatar" style="background:var(--series-magenta);">AC</span>
-            <span>Alma C.</span>
-            <span class="tag">Growth</span>
-          </div>
-          <div class="k-card-foot"><span class="badge badge-good">On track</span></div>
         </div>
       </div>
 
@@ -837,24 +761,18 @@
         </div>
 
         <div class="k-card">
-          <span class="badge badge-critical">Blocked</span>
           <div class="k-card-title">Salesforce OAuth app pending third-party review</div>
           <div class="k-card-desc">Blocks the integrations step; review queue currently running ~10 business days.</div>
-          <div class="k-card-foot">Owner: Maya R. · Opened Jun 24</div>
         </div>
 
         <div class="k-card">
-          <span class="badge badge-serious">Due soon</span>
           <div class="k-card-title">Finalize pricing tiers for team accounts</div>
           <div class="k-card-desc">Needed before beta invites go out so onboarding copy matches pricing.</div>
-          <div class="k-card-foot">Owner: Ivan Z. · Due Jul 9</div>
         </div>
 
         <div class="k-card">
-          <span class="badge badge-serious">At risk</span>
           <div class="k-card-title">Rate limiting perf regression under load</div>
           <div class="k-card-desc">Early load tests show p95 latency 2.3x target at 3k concurrent sessions.</div>
-          <div class="k-card-foot">Owner: Dan K. · Flagged Jul 1</div>
         </div>
       </div>
 
@@ -867,25 +785,21 @@
         </div>
 
         <div class="k-card">
-          <span class="badge badge-warning">Watch</span>
           <div class="k-card-title">Support headcount for beta launch</div>
           <div class="k-card-desc">Current plan assumes 1 support rep per 100 beta accounts — untested ratio.</div>
         </div>
 
         <div class="k-card">
-          <span class="badge badge-warning">Watch</span>
           <div class="k-card-title">Third-party OAuth review turnaround</div>
           <div class="k-card-desc">Trending slower than prior quarter; could push integrations timeline.</div>
         </div>
 
         <div class="k-card">
-          <span class="badge badge-good">Stable</span>
           <div class="k-card-title">Infra cost run-rate</div>
           <div class="k-card-desc">Tracking 4% under budget through Q3 projections.</div>
         </div>
 
         <div class="k-card">
-          <span class="badge badge-warning">Watch</span>
           <div class="k-card-title">Competitor beta launch (rumored Aug)</div>
           <div class="k-card-desc">Unconfirmed; monitoring for overlap with our GA window.</div>
         </div>
@@ -909,7 +823,6 @@
           <span class="k-date">Jul 18, 2026</span>
           <div class="k-card-title">Integrations step feature-complete</div>
           <div class="k-card-desc">Slack + Google OAuth flows done; Salesforce connector at risk of slipping.</div>
-          <div class="k-card-foot"><span class="badge badge-serious">At risk</span></div>
         </div>
 
         <div class="k-card">
@@ -1192,7 +1105,7 @@
       </div>
 
       <!-- Financial: billed vs total by phase -->
-      <div class="card">
+      <div class="card fin-card">
         <div class="section-title">Financial — Billed vs Total by Phase</div>
         <div id="pdFinancial">
           <div class="fin-total">$104,000 <span class="fin-total-sub">billed of $240,000 total</span></div>
@@ -1593,25 +1506,16 @@
     function progressCardHtml(item) {
       return '<div class="k-card">' +
         '<div class="k-card-title">' + item.title + '</div>' +
-        '<div class="k-card-meta">' +
-        '<span class="avatar" style="background:var(' + item.avatarColor + ');">' + item.initials + '</span>' +
-        '<span>' + item.owner + '</span>' +
-        '<span class="tag">' + item.tag + '</span>' +
-        '</div>' +
-        '<div class="k-card-foot"><span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span></div>' +
         '</div>';
     }
     function priorityCardHtml(item) {
       return '<div class="k-card">' +
-        '<span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span>' +
         '<div class="k-card-title">' + item.title + '</div>' +
         '<div class="k-card-desc">' + item.desc + '</div>' +
-        '<div class="k-card-foot">' + item.foot + '</div>' +
         '</div>';
     }
     function watchCardHtml(item) {
       return '<div class="k-card">' +
-        '<span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span>' +
         '<div class="k-card-title">' + item.title + '</div>' +
         '<div class="k-card-desc">' + item.desc + '</div>' +
         '</div>';
@@ -1621,7 +1525,6 @@
         '<span class="k-date">' + item.date + '</span>' +
         '<div class="k-card-title">' + item.title + '</div>' +
         '<div class="k-card-desc">' + item.desc + '</div>' +
-        (item.badgeText ? '<div class="k-card-foot"><span class="badge ' + item.badgeClass + '">' + item.badgeText + '</span></div>' : '') +
         '</div>';
     }
     function columnHtml(colorVar, title, count, cardsHtml) {
@@ -1657,8 +1560,10 @@
     function psItemHtml(ph) {
       return '<div class="ps-item state-' + ph.state + '">' +
         '<span class="ps-dot state-' + ph.state + '"></span>' +
+        '<div class="ps-item-body">' +
         '<span class="ps-name">' + ph.name + '</span>' +
         '<span class="ps-sub">' + ph.sub + '</span>' +
+        '</div>' +
         '</div>';
     }
 
