@@ -644,7 +644,58 @@
     .kanban-board { grid-template-columns: 1fr; }
   }
 
-  #printRoot { display: none; }
+  /* ---------- Print preview overlay ---------- */
+  .print-preview-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: var(--page-plane);
+    overflow-y: auto;
+  }
+  .print-preview-overlay.open { display: block; }
+  body.preview-open { overflow: hidden; }
+  .preview-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 24px;
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .preview-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .preview-close-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-1);
+    color: var(--text-primary);
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .preview-close-btn:hover { background: var(--surface-2); }
+  .print-pages { padding: 28px 0 60px; }
+  .print-pages .print-page:not(:first-child) {
+    border-top: 2px dashed var(--border-strong);
+    margin-top: 40px;
+    padding-top: 40px;
+  }
 
   @media print {
     * {
@@ -662,9 +713,20 @@
     .card { break-inside: avoid; }
     .board-row, .direction-row, .grid { break-inside: avoid; }
 
-    body.printing-all > .wrap { display: none; }
-    body.printing-all #printRoot { display: block; }
-    #printRoot .print-page + .print-page { page-break-before: always; }
+    body.preview-open > *:not(.print-preview-overlay) { display: none !important; }
+    body.preview-open .preview-toolbar { display: none !important; }
+    body.preview-open .print-preview-overlay {
+      position: static;
+      inset: auto;
+      overflow: visible;
+      background: none;
+    }
+    .print-pages .print-page:not(:first-child) {
+      border-top: none !important;
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    .print-pages .print-page + .print-page { page-break-before: always; }
   }
 </style>
 </head>
@@ -1239,7 +1301,23 @@
   </div>
 
 </div>
-<div id="printRoot"></div>
+<div id="printPreview" class="print-preview-overlay">
+  <div class="preview-toolbar">
+    <span class="preview-title">Print Preview — All Projects</span>
+    <div class="preview-toolbar-actions">
+      <button id="previewPrintBtn" class="export-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v12"/>
+          <path d="M7 10l5 5 5-5"/>
+          <path d="M5 21h14"/>
+        </svg>
+        Print / Save as PDF
+      </button>
+      <button id="previewCloseBtn" class="preview-close-btn" type="button" aria-label="Close preview">✕</button>
+    </div>
+  </div>
+  <div id="printPages" class="print-pages"></div>
+</div>
 <script>
   (function () {
     const track = document.getElementById('carouselTrack');
@@ -1764,16 +1842,16 @@
         '</div>' +
         '</div>';
     }
-    function exportAllProjectsPdf() {
-      const printRoot = document.getElementById('printRoot');
-      printRoot.innerHTML = PROJECTS.map((p) => projectPageHtml(p)).join('');
-      document.body.classList.add('printing-all');
-      window.print();
+    function openPrintPreview() {
+      const printPages = document.getElementById('printPages');
+      printPages.innerHTML = PROJECTS.map((p) => projectPageHtml(p)).join('');
+      document.getElementById('printPreview').classList.add('open');
+      document.body.classList.add('preview-open');
     }
-    window.addEventListener('afterprint', () => {
-      document.body.classList.remove('printing-all');
-      document.getElementById('printRoot').innerHTML = '';
-    });
+    function closePrintPreview() {
+      document.getElementById('printPreview').classList.remove('open');
+      document.body.classList.remove('preview-open');
+    }
 
     function render(idx) {
       const p = PROJECTS[idx];
@@ -1849,7 +1927,14 @@
       this.style.height = Math.min(this.scrollHeight, 100) + 'px';
     });
 
-    document.getElementById('exportPdfBtn').addEventListener('click', exportAllProjectsPdf);
+    document.getElementById('exportPdfBtn').addEventListener('click', openPrintPreview);
+    document.getElementById('previewCloseBtn').addEventListener('click', closePrintPreview);
+    document.getElementById('previewPrintBtn').addEventListener('click', () => window.print());
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('printPreview').classList.contains('open')) {
+        closePrintPreview();
+      }
+    });
 
     render(current);
   })();
