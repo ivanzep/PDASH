@@ -132,6 +132,16 @@
   }
   .direction-goal strong { font-weight: 600; }
 
+  .track + .track { margin-top: 26px; }
+  .track-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+
   .phase-track {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -168,6 +178,12 @@
     border-color: var(--series-blue);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--series-blue) 25%, transparent);
   }
+  .phase.pending .dot {
+    background: var(--surface-1);
+    border-color: var(--status-warning);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--status-warning) 25%, transparent);
+  }
+  .phase.pending .phase-sub { color: var(--status-warning); font-weight: 600; }
   .phase-label {
     font-size: 12.5px;
     font-weight: 600;
@@ -182,10 +198,10 @@
   }
 
   /* ---------- Kanban board ---------- */
-  .board-card { margin-bottom: 20px; }
+  .board-card { margin-bottom: 0; }
   .kanban-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 18px;
     align-items: start;
   }
@@ -342,6 +358,7 @@
   }
   .col { display: flex; flex-direction: column; gap: 20px; }
   .info-grid { grid-template-columns: 1fr 1fr; }
+  .board-row { grid-template-columns: 1fr 1fr; margin-bottom: 20px; }
 
   .tag {
     font-size: 11px;
@@ -450,7 +467,7 @@
 
   @media (max-width: 880px) {
     .grid { grid-template-columns: 1fr; }
-    .kanban-board { grid-template-columns: repeat(2, 1fr); }
+    .board-row { grid-template-columns: 1fr; }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
     .carousel-viewport { aspect-ratio: 16 / 9; }
   }
@@ -482,35 +499,71 @@
     <p class="direction-goal">
       <strong>North star:</strong> ship a self-serve onboarding flow that cuts time-to-first-value from 9 days to under 24 hours, then expand to team accounts.
     </p>
-    <div class="phase-track">
-      <div class="phase done">
-        <div class="dot"></div><div class="bar"></div>
-        <div class="phase-label">Discovery</div>
-        <div class="phase-sub">Completed Apr 2026</div>
+
+    <div class="track">
+      <div class="track-label">Track 1 — Self-serve onboarding</div>
+      <div class="phase-track">
+        <div class="phase done">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Discovery</div>
+          <div class="phase-sub">Completed Apr 2026</div>
+        </div>
+        <div class="phase done">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Design</div>
+          <div class="phase-sub">Completed May 2026</div>
+        </div>
+        <div class="phase current">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Build</div>
+          <div class="phase-sub">In progress · 62%</div>
+        </div>
+        <div class="phase upcoming">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Beta</div>
+          <div class="phase-sub">Target Aug 2026</div>
+        </div>
+        <div class="phase upcoming">
+          <div class="dot"></div>
+          <div class="phase-label">GA Launch</div>
+          <div class="phase-sub">Target Oct 2026</div>
+        </div>
       </div>
-      <div class="phase done">
-        <div class="dot"></div><div class="bar"></div>
-        <div class="phase-label">Design</div>
-        <div class="phase-sub">Completed May 2026</div>
-      </div>
-      <div class="phase current">
-        <div class="dot"></div><div class="bar"></div>
-        <div class="phase-label">Build</div>
-        <div class="phase-sub">In progress · 62%</div>
-      </div>
-      <div class="phase upcoming">
-        <div class="dot"></div><div class="bar"></div>
-        <div class="phase-label">Beta</div>
-        <div class="phase-sub">Target Aug 2026</div>
-      </div>
-      <div class="phase upcoming">
-        <div class="dot"></div>
-        <div class="phase-label">GA Launch</div>
-        <div class="phase-sub">Target Oct 2026</div>
+    </div>
+
+    <div class="track">
+      <div class="track-label">Track 2 — Team accounts expansion</div>
+      <div class="phase-track">
+        <div class="phase pending">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Planning</div>
+          <div class="phase-sub">Pending direction</div>
+        </div>
+        <div class="phase upcoming">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Design</div>
+          <div class="phase-sub">Not started</div>
+        </div>
+        <div class="phase upcoming">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Build</div>
+          <div class="phase-sub">Not started</div>
+        </div>
+        <div class="phase upcoming">
+          <div class="dot"></div><div class="bar"></div>
+          <div class="phase-label">Rollout</div>
+          <div class="phase-sub">Not started</div>
+        </div>
+        <div class="phase upcoming">
+          <div class="dot"></div>
+          <div class="phase-label">Scale</div>
+          <div class="phase-sub">Not started</div>
+        </div>
       </div>
     </div>
   </div>
 
+  <div class="grid board-row">
   <!-- Kanban board -->
   <div class="card board-card">
     <div class="section-title">Board</div>
@@ -676,97 +729,6 @@
           <div class="k-card-title">General availability</div>
           <div class="k-card-desc">Public launch, pricing page live, support runbooks published.</div>
         </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="grid info-grid">
-    <!-- LEFT COLUMN -->
-    <div class="col">
-
-      <!-- Open questions -->
-      <div class="card">
-        <div class="section-title">Open Questions</div>
-
-        <div class="q-item">
-          <span class="q-mark">?</span>
-          <div class="q-body">
-            <div class="q-title">Do team accounts share billing with individual accounts, or bill separately?</div>
-            <div class="q-foot">Needs: <span class="q-owner">Finance + Product</span> · by Jul 11</div>
-          </div>
-        </div>
-
-        <div class="q-item">
-          <span class="q-mark">?</span>
-          <div class="q-body">
-            <div class="q-title">Is a Salesforce connector required for beta, or can it ship post-GA?</div>
-            <div class="q-foot">Needs: <span class="q-owner">Ivan Z.</span> · by Jul 8</div>
-          </div>
-        </div>
-
-        <div class="q-item">
-          <span class="q-mark">?</span>
-          <div class="q-body">
-            <div class="q-title">What's the rollback plan if load testing fails on Jul 25?</div>
-            <div class="q-foot">Needs: <span class="q-owner">Dan K.</span> · by Jul 20</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div class="col">
-
-      <!-- Resources & links -->
-      <div class="card">
-        <div class="section-title">Resources &amp; Links</div>
-
-        <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-blue);">PR</span>
-          <div class="link-body">
-            <div class="link-title">Product requirements doc</div>
-            <div class="link-url">docs.google.com/onboarding-prd</div>
-          </div>
-          <span class="link-arrow">↗</span>
-        </a>
-
-        <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-violet);">FG</span>
-          <div class="link-body">
-            <div class="link-title">Figma — onboarding &amp; beta flows</div>
-            <div class="link-url">figma.com/file/atlas-onboarding</div>
-          </div>
-          <span class="link-arrow">↗</span>
-        </a>
-
-        <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-aqua);">GH</span>
-          <div class="link-body">
-            <div class="link-title">Repository — atlas-onboarding</div>
-            <div class="link-url">github.com/ivanzep/atlas-onboarding</div>
-          </div>
-          <span class="link-arrow">↗</span>
-        </a>
-
-        <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-orange);">AN</span>
-          <div class="link-body">
-            <div class="link-title">Analytics — beta funnel dashboard</div>
-            <div class="link-url">amplitude.com/atlas/beta-funnel</div>
-          </div>
-          <span class="link-arrow">↗</span>
-        </a>
-
-        <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-magenta);">SL</span>
-          <div class="link-body">
-            <div class="link-title">Slack — #atlas-onboarding</div>
-            <div class="link-url">app.slack.com/atlas-onboarding</div>
-          </div>
-          <span class="link-arrow">↗</span>
-        </a>
       </div>
 
     </div>
@@ -941,6 +903,99 @@
       <button class="carousel-btn prev" type="button" aria-label="Previous image" onclick="carouselMove(-1)">‹</button>
       <button class="carousel-btn next" type="button" aria-label="Next image" onclick="carouselMove(1)">›</button>
       <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+
+  </div>
+
+  <div class="grid info-grid">
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <!-- Open questions -->
+      <div class="card">
+        <div class="section-title">Open Questions</div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">Do team accounts share billing with individual accounts, or bill separately?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Finance + Product</span> · by Jul 11</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">Is a Salesforce connector required for beta, or can it ship post-GA?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Ivan Z.</span> · by Jul 8</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">What's the rollback plan if load testing fails on Jul 25?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Dan K.</span> · by Jul 20</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <!-- Resources & links -->
+      <div class="card">
+        <div class="section-title">Resources &amp; Links</div>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-blue);">PR</span>
+          <div class="link-body">
+            <div class="link-title">Product requirements doc</div>
+            <div class="link-url">docs.google.com/onboarding-prd</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-violet);">FG</span>
+          <div class="link-body">
+            <div class="link-title">Figma — onboarding &amp; beta flows</div>
+            <div class="link-url">figma.com/file/atlas-onboarding</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-aqua);">GH</span>
+          <div class="link-body">
+            <div class="link-title">Repository — atlas-onboarding</div>
+            <div class="link-url">github.com/ivanzep/atlas-onboarding</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-orange);">AN</span>
+          <div class="link-body">
+            <div class="link-title">Analytics — beta funnel dashboard</div>
+            <div class="link-url">amplitude.com/atlas/beta-funnel</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+
+        <a class="link-item" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--series-magenta);">SL</span>
+          <div class="link-body">
+            <div class="link-title">Slack — #atlas-onboarding</div>
+            <div class="link-url">app.slack.com/atlas-onboarding</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+      </div>
+
     </div>
   </div>
 
