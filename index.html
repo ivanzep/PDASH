@@ -803,6 +803,103 @@
   .lightbox-prev { left: 24px; }
   .lightbox-next { right: 24px; }
 
+  /* ---------- Landing / cover page ---------- */
+  .hidden { display: none !important; }
+  body.landing-active .sidebar-toggle-btn { display: none; }
+  .landing-view {
+    min-height: 100vh;
+    background: var(--page-plane);
+    padding: 60px 24px 80px;
+  }
+  .landing-wrap { max-width: 1100px; margin: 0 auto; }
+  .landing-header { text-align: center; margin-bottom: 40px; }
+  .landing-header .mockup-flag { margin-bottom: 20px; }
+  .landing-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--series-blue);
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .landing-sub {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .landing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .landing-card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(11,11,11,0.03);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .landing-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(11,11,11,0.12);
+  }
+  .landing-card-bar { height: 6px; }
+  .landing-card-body {
+    padding: 22px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .landing-card-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .landing-card-tagline {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 18px;
+    flex: 1;
+  }
+  .landing-card-stats {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+  .landing-stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .landing-stat-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+  }
+  .landing-card-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--series-blue);
+    padding-top: 14px;
+    border-top: 1px solid var(--gridline);
+  }
+  @media (max-width: 880px) {
+    .landing-grid { grid-template-columns: 1fr; }
+  }
+
   /* ---------- Project sidebar ---------- */
   .sidebar-toggle-btn {
     position: fixed;
@@ -821,6 +918,7 @@
   }
   .sidebar-toggle-btn:hover { background: var(--surface-2); }
   .sidebar-toggle-btn svg { width: 18px; height: 18px; }
+  #sidebarToggleBtn { left: 70px; }
 
   .sidebar-backdrop {
     display: none;
@@ -926,7 +1024,9 @@
     .lightbox-overlay,
     .sidebar-toggle-btn,
     .sidebar-backdrop,
-    .project-sidebar { display: none !important; }
+    .project-sidebar,
+    #landingView,
+    #dashboardView { display: none !important; }
     .card { break-inside: avoid; }
     .board-row, .side-row, .grid { break-inside: avoid; }
 
@@ -949,6 +1049,12 @@
 </head>
 <body>
 
+<button id="homeBtn" class="sidebar-toggle-btn home-btn" type="button" aria-label="Back to portfolio overview">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 11l9-8 9 8"/>
+    <path d="M5 10v10h14V10"/>
+  </svg>
+</button>
 <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Show project list">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <line x1="4" y1="7" x2="20" y2="7"/>
@@ -965,7 +1071,18 @@
   <div id="sidebarList" class="sidebar-list"></div>
 </aside>
 
-<div class="wrap">
+<div id="landingView" class="landing-view">
+  <div class="landing-wrap">
+    <div class="landing-header">
+      <span class="mockup-flag">● Mockup — placeholder data</span>
+      <h1 class="landing-title">Project Portfolio</h1>
+      <p class="landing-sub">Select a project to view its full dashboard — direction, board, financials, and more.</p>
+    </div>
+    <div id="landingGrid" class="landing-grid"></div>
+  </div>
+</div>
+
+<div id="dashboardView" class="wrap">
 
   <span class="mockup-flag">● Mockup — placeholder data</span>
 
@@ -2094,9 +2211,19 @@
         '</div>' +
         '</div>';
     }
+    function coverPageHtml() {
+      const generated = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      return '<div class="wrap print-page">' +
+        '<div class="landing-header" style="margin-bottom:32px;">' +
+        '<h1 class="landing-title">Project Portfolio</h1>' +
+        '<p class="landing-sub">Status overview generated ' + generated + '</p>' +
+        '</div>' +
+        '<div class="landing-grid">' + PROJECTS.map(landingCardHtml).join('') + '</div>' +
+        '</div>';
+    }
     function openPrintPreview() {
       const printPages = document.getElementById('printPages');
-      printPages.innerHTML = PROJECTS.map((p) => projectPageHtml(p)).join('');
+      printPages.innerHTML = coverPageHtml() + PROJECTS.map((p) => projectPageHtml(p)).join('');
       document.getElementById('printPreview').classList.add('open');
       document.body.classList.add('preview-open');
     }
@@ -2196,6 +2323,49 @@
     document.getElementById('sidebarCloseBtn').addEventListener('click', closeSidebar);
     document.getElementById('sidebarBackdrop').addEventListener('click', closeSidebar);
 
+    // ---- Landing / cover page ----
+    const LANDING_COLORS = ['--series-blue', '--series-aqua', '--series-violet'];
+    function landingCardHtml(p, i) {
+      const color = LANDING_COLORS[i % LANDING_COLORS.length];
+      return '<div class="landing-card" data-idx="' + i + '">' +
+        '<div class="landing-card-bar" style="background:var(' + color + ');"></div>' +
+        '<div class="landing-card-body">' +
+        '<div class="landing-card-name">' + p.name + '</div>' +
+        '<div class="landing-card-tagline">' + p.tagline + '</div>' +
+        '<div class="landing-card-stats">' +
+        '<div class="landing-stat"><div class="landing-stat-value">' + p.board.progress.count + '</div><div class="landing-stat-label">In progress</div></div>' +
+        '<div class="landing-stat"><div class="landing-stat-value">' + p.board.priority.count + '</div><div class="landing-stat-label">High priority</div></div>' +
+        '<div class="landing-stat"><div class="landing-stat-value">' + p.board.watch.count + '</div><div class="landing-stat-label">To watch</div></div>' +
+        '</div>' +
+        '<div class="landing-card-cta"><span>View dashboard</span><span>→</span></div>' +
+        '</div>' +
+        '</div>';
+    }
+    function renderLanding() {
+      const grid = document.getElementById('landingGrid');
+      grid.innerHTML = PROJECTS.map(landingCardHtml).join('');
+      Array.prototype.forEach.call(grid.querySelectorAll('.landing-card'), (card) => {
+        card.addEventListener('click', () => {
+          current = parseInt(card.getAttribute('data-idx'), 10);
+          showDashboard();
+        });
+      });
+    }
+    function showLanding() {
+      renderLanding();
+      document.getElementById('landingView').classList.remove('hidden');
+      document.getElementById('dashboardView').classList.add('hidden');
+      document.body.classList.add('landing-active');
+      closeSidebar();
+    }
+    function showDashboard() {
+      render(current);
+      document.getElementById('landingView').classList.add('hidden');
+      document.getElementById('dashboardView').classList.remove('hidden');
+      document.body.classList.remove('landing-active');
+    }
+    document.getElementById('homeBtn').addEventListener('click', showLanding);
+
     function addNote() {
       const input = document.getElementById('noteInput');
       const text = input.value.trim();
@@ -2283,6 +2453,7 @@
     });
 
     render(current);
+    showLanding();
   })();
 </script>
 </body>
