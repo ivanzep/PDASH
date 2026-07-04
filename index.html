@@ -848,6 +848,14 @@
     box-shadow: 0 10px 28px rgba(11,11,11,0.12);
   }
   .landing-card-bar { height: 6px; }
+  .landing-card-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .landing-card-thumb svg { display: block; width: 100%; height: 100%; }
   .landing-card-body {
     padding: 22px 24px;
     flex: 1;
@@ -899,6 +907,164 @@
   @media (max-width: 880px) {
     .landing-grid { grid-template-columns: 1fr; }
   }
+
+  .landing-links-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 22px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .landing-link-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--series-blue);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(11,11,11,0.03);
+  }
+  .landing-link-card:hover { background: var(--surface-2); }
+
+  /* ---------- Staff matrix ---------- */
+  .staff-table-wrap { overflow-x: auto; }
+  .staff-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 700px; }
+  .staff-table th, .staff-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--gridline);
+    white-space: nowrap;
+  }
+  .staff-table thead th {
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .staff-table tbody tr:last-child td { border-bottom: none; }
+  .staff-name { font-weight: 700; color: var(--text-primary); }
+  .staff-role { color: var(--text-secondary); font-size: 12px; }
+  .staff-alloc-cell { text-align: center; }
+  .staff-alloc-pill {
+    display: inline-block;
+    min-width: 44px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(42,120,214,0.12);
+    color: var(--series-blue);
+  }
+  .staff-alloc-empty { color: var(--text-muted); }
+  .staff-total { font-weight: 800; color: var(--text-primary); }
+
+  /* ---------- Potential projects (editable) ---------- */
+  .potential-add-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .potential-add-row input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
+  .potential-add-row select {
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
+  .potential-add-row input:focus, .potential-add-row select:focus { outline: none; border-color: var(--series-blue); }
+  .potential-add-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0 18px;
+    background: var(--series-blue);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .potential-add-btn:hover { opacity: 0.9; }
+  .potential-list { display: flex; flex-direction: column; gap: 14px; }
+  .potential-item {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(11,11,11,0.03);
+    padding: 16px 18px;
+  }
+  .potential-item-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .potential-item-name {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 4px 6px;
+    border-radius: 6px;
+    min-width: 0;
+  }
+  .potential-item-name:focus { outline: 2px solid var(--series-blue); background: var(--surface-2); }
+  .potential-status-select {
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: var(--surface-2);
+    color: var(--text-secondary);
+  }
+  .potential-delete-btn {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-1);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .potential-delete-btn:hover { background: var(--status-critical-bg); color: var(--status-critical); border-color: var(--status-critical); }
+  .potential-notes {
+    width: 100%;
+    resize: vertical;
+    min-height: 56px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.5;
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
+  .potential-notes:focus { outline: none; border-color: var(--series-blue); }
 
   /* ---------- Project sidebar ---------- */
   .sidebar-toggle-btn {
@@ -972,11 +1138,25 @@
     flex-shrink: 0;
   }
   .sidebar-close-btn:hover { background: var(--surface-2); }
-  .sidebar-list {
+  .sidebar-scroll {
     flex: 1;
     overflow-y: auto;
     padding: 10px;
   }
+  .sidebar-section-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    padding: 14px 14px 6px;
+  }
+  .sidebar-divider {
+    height: 1px;
+    background: var(--gridline);
+    margin: 10px 6px;
+  }
+  .sidebar-nav-item { font-size: 13.5px; font-weight: 700; color: var(--text-primary); }
   .sidebar-item {
     display: block;
     width: 100%;
@@ -1026,7 +1206,9 @@
     .sidebar-backdrop,
     .project-sidebar,
     #landingView,
-    #dashboardView { display: none !important; }
+    #dashboardView,
+    #staffView,
+    #potentialView { display: none !important; }
     .card { break-inside: avoid; }
     .board-row, .side-row, .grid { break-inside: avoid; }
 
@@ -1065,10 +1247,17 @@
 <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 <aside id="projectSidebar" class="project-sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-title">All Projects</span>
+    <span class="sidebar-title">Navigate</span>
     <button id="sidebarCloseBtn" class="sidebar-close-btn" type="button" aria-label="Close project list">✕</button>
   </div>
-  <div id="sidebarList" class="sidebar-list"></div>
+  <div class="sidebar-scroll">
+    <button id="sidebarOverviewBtn" class="sidebar-item sidebar-nav-item" type="button">🏠 Portfolio Overview</button>
+    <div class="sidebar-section-label">Projects</div>
+    <div id="sidebarProjectList"></div>
+    <div class="sidebar-divider"></div>
+    <button id="sidebarStaffBtn" class="sidebar-item sidebar-nav-item" type="button">👥 Staff Matrix</button>
+    <button id="sidebarPotentialBtn" class="sidebar-item sidebar-nav-item" type="button">💡 Potential Projects</button>
+  </div>
 </aside>
 
 <div id="landingView" class="landing-view">
@@ -1079,6 +1268,10 @@
       <p class="landing-sub">Select a project to view its full dashboard — direction, board, financials, and more.</p>
     </div>
     <div id="landingGrid" class="landing-grid"></div>
+    <div class="landing-links-row">
+      <button id="landingStaffLink" class="landing-link-card" type="button">👥 Staff Matrix</button>
+      <button id="landingPotentialLink" class="landing-link-card" type="button">💡 Potential Projects</button>
+    </div>
   </div>
 </div>
 
@@ -1652,6 +1845,49 @@
   </div>
 
 </div>
+
+<div id="staffView" class="wrap hidden">
+  <div class="landing-header" style="margin-bottom:28px;">
+    <h1 class="landing-title">Staff Matrix</h1>
+    <p class="landing-sub">Team allocation across all active projects.</p>
+  </div>
+  <div class="card">
+    <div class="section-title">Team Allocation</div>
+    <div class="staff-table-wrap">
+      <table class="staff-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Atlas</th>
+            <th>Nimbus</th>
+            <th>Helios</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="staffTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="potentialView" class="wrap hidden">
+  <div class="landing-header" style="margin-bottom:28px;">
+    <h1 class="landing-title">Potential Projects</h1>
+    <p class="landing-sub">Ideas and proposals under consideration — add notes as they develop.</p>
+  </div>
+  <div class="potential-add-row">
+    <input type="text" id="potentialNameInput" placeholder="New project idea name…">
+    <select id="potentialStatusInput">
+      <option>Exploring</option>
+      <option>Proposed</option>
+      <option>On hold</option>
+    </select>
+    <button id="potentialAddBtn" class="potential-add-btn" type="button">Add</button>
+  </div>
+  <div id="potentialList" class="potential-list"></div>
+</div>
+
 <div id="printPreview" class="print-preview-overlay">
   <div class="preview-toolbar">
     <span class="preview-title">Print Preview — All Projects</span>
@@ -2009,6 +2245,28 @@
       }
     ];
 
+    const STAFF = [
+      { name: "Ivan Zepeda", role: "Product Lead", allocations: { atlas: 40, nimbus: 20, helios: 10 } },
+      { name: "Maya R.", role: "Frontend Engineer", allocations: { atlas: 100 } },
+      { name: "Dan K.", role: "Backend Engineer", allocations: { atlas: 80, nimbus: 20 } },
+      { name: "Sara L.", role: "Backend Engineer", allocations: { atlas: 100 } },
+      { name: "Jon T.", role: "Data Engineer", allocations: { atlas: 60, helios: 20 } },
+      { name: "Alma C.", role: "Growth Marketer", allocations: { atlas: 50 } },
+      { name: "Priya N.", role: "Backend Engineer", allocations: { nimbus: 100 } },
+      { name: "Well K.", role: "Lifecycle Marketer", allocations: { nimbus: 80 } },
+      { name: "Marcus O.", role: "Backend Engineer", allocations: { nimbus: 100 } },
+      { name: "Tomas R.", role: "QA Engineer", allocations: { nimbus: 60, helios: 40 } },
+      { name: "Renee A.", role: "Design Lead", allocations: { helios: 100 } },
+      { name: "Chen W.", role: "iOS Engineer", allocations: { helios: 100 } },
+      { name: "Leah F.", role: "Android Engineer", allocations: { helios: 100 } }
+    ];
+
+    const POTENTIAL_PROJECTS = [
+      { name: "Voice-guided onboarding", status: "Exploring", notes: "Could reduce onboarding drop-off further, but needs voice UX research first." },
+      { name: "Multi-region billing support", status: "Proposed", notes: "Came up from EU prospect conversations; needs legal review on tax handling." },
+      { name: "Partner API", status: "On hold", notes: "Blocked until core onboarding ships; revisit in Q4." }
+    ];
+
     let current = 0;
 
     function phaseHtml(p) {
@@ -2295,7 +2553,7 @@
         '</button>';
     }
     function renderSidebarList() {
-      const list = document.getElementById('sidebarList');
+      const list = document.getElementById('sidebarProjectList');
       list.innerHTML = PROJECTS.map((p, i) => sidebarItemHtml(p, i)).join('');
       Array.prototype.forEach.call(list.children, (btn) => {
         btn.addEventListener('click', () => {
@@ -2325,10 +2583,17 @@
 
     // ---- Landing / cover page ----
     const LANDING_COLORS = ['--series-blue', '--series-aqua', '--series-violet'];
+    function slideArtHtml(i) {
+      const slides = document.querySelectorAll('#carouselTrack .carousel-slide');
+      const slide = slides[i % slides.length];
+      const svg = slide && slide.querySelector('svg');
+      return svg ? svg.outerHTML : '';
+    }
     function landingCardHtml(p, i) {
       const color = LANDING_COLORS[i % LANDING_COLORS.length];
       return '<div class="landing-card" data-idx="' + i + '">' +
         '<div class="landing-card-bar" style="background:var(' + color + ');"></div>' +
+        '<div class="landing-card-thumb">' + slideArtHtml(i) + '</div>' +
         '<div class="landing-card-body">' +
         '<div class="landing-card-name">' + p.name + '</div>' +
         '<div class="landing-card-tagline">' + p.tagline + '</div>' +
@@ -2351,20 +2616,110 @@
         });
       });
     }
+    const ALL_VIEWS = ['landingView', 'dashboardView', 'staffView', 'potentialView'];
+    function showView(id) {
+      ALL_VIEWS.forEach((v) => {
+        document.getElementById(v).classList.toggle('hidden', v !== id);
+      });
+      document.body.classList.toggle('landing-active', id === 'landingView');
+      closeSidebar();
+    }
     function showLanding() {
       renderLanding();
-      document.getElementById('landingView').classList.remove('hidden');
-      document.getElementById('dashboardView').classList.add('hidden');
-      document.body.classList.add('landing-active');
-      closeSidebar();
+      showView('landingView');
     }
     function showDashboard() {
       render(current);
-      document.getElementById('landingView').classList.add('hidden');
-      document.getElementById('dashboardView').classList.remove('hidden');
-      document.body.classList.remove('landing-active');
+      showView('dashboardView');
     }
     document.getElementById('homeBtn').addEventListener('click', showLanding);
+
+    // ---- Staff matrix ----
+    function staffAllocCellHtml(pct) {
+      if (!pct) return '<span class="staff-alloc-empty">—</span>';
+      return '<span class="staff-alloc-pill">' + pct + '%</span>';
+    }
+    function staffRowHtml(s) {
+      const total = (s.allocations.atlas || 0) + (s.allocations.nimbus || 0) + (s.allocations.helios || 0);
+      return '<tr>' +
+        '<td class="staff-name">' + s.name + '</td>' +
+        '<td class="staff-role">' + s.role + '</td>' +
+        '<td class="staff-alloc-cell">' + staffAllocCellHtml(s.allocations.atlas) + '</td>' +
+        '<td class="staff-alloc-cell">' + staffAllocCellHtml(s.allocations.nimbus) + '</td>' +
+        '<td class="staff-alloc-cell">' + staffAllocCellHtml(s.allocations.helios) + '</td>' +
+        '<td class="staff-alloc-cell staff-total">' + total + '%</td>' +
+        '</tr>';
+    }
+    function renderStaffMatrix() {
+      document.getElementById('staffTableBody').innerHTML = STAFF.map(staffRowHtml).join('');
+    }
+    function showStaffMatrix() {
+      renderStaffMatrix();
+      showView('staffView');
+    }
+
+    // ---- Potential projects (editable) ----
+    function potentialItemHtml(item, i) {
+      const statuses = ['Exploring', 'Proposed', 'On hold'];
+      return '<div class="potential-item" data-idx="' + i + '">' +
+        '<div class="potential-item-head">' +
+        '<span class="potential-item-name" contenteditable="true">' + item.name + '</span>' +
+        '<select class="potential-status-select">' +
+        statuses.map((s) => '<option' + (s === item.status ? ' selected' : '') + '>' + s + '</option>').join('') +
+        '</select>' +
+        '<button type="button" class="potential-delete-btn" aria-label="Remove">✕</button>' +
+        '</div>' +
+        '<textarea class="potential-notes" rows="2" placeholder="Notes…">' + item.notes + '</textarea>' +
+        '</div>';
+    }
+    function renderPotential() {
+      const list = document.getElementById('potentialList');
+      list.innerHTML = POTENTIAL_PROJECTS.map(potentialItemHtml).join('');
+      Array.prototype.forEach.call(list.children, (row) => {
+        const idx = parseInt(row.getAttribute('data-idx'), 10);
+        const nameEl = row.querySelector('.potential-item-name');
+        const statusEl = row.querySelector('.potential-status-select');
+        const notesEl = row.querySelector('.potential-notes');
+        nameEl.addEventListener('blur', () => {
+          POTENTIAL_PROJECTS[idx].name = nameEl.textContent.trim() || 'Untitled idea';
+        });
+        statusEl.addEventListener('change', () => {
+          POTENTIAL_PROJECTS[idx].status = statusEl.value;
+        });
+        notesEl.addEventListener('input', () => {
+          POTENTIAL_PROJECTS[idx].notes = notesEl.value;
+        });
+        row.querySelector('.potential-delete-btn').addEventListener('click', () => {
+          POTENTIAL_PROJECTS.splice(idx, 1);
+          renderPotential();
+        });
+      });
+    }
+    function showPotential() {
+      renderPotential();
+      showView('potentialView');
+    }
+    document.getElementById('potentialAddBtn').addEventListener('click', () => {
+      const nameInput = document.getElementById('potentialNameInput');
+      const statusInput = document.getElementById('potentialStatusInput');
+      const name = nameInput.value.trim();
+      if (!name) return;
+      POTENTIAL_PROJECTS.unshift({ name: name, status: statusInput.value, notes: '' });
+      nameInput.value = '';
+      renderPotential();
+    });
+    document.getElementById('potentialNameInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('potentialAddBtn').click();
+      }
+    });
+
+    document.getElementById('sidebarOverviewBtn').addEventListener('click', showLanding);
+    document.getElementById('sidebarStaffBtn').addEventListener('click', showStaffMatrix);
+    document.getElementById('sidebarPotentialBtn').addEventListener('click', showPotential);
+    document.getElementById('landingStaffLink').addEventListener('click', showStaffMatrix);
+    document.getElementById('landingPotentialLink').addEventListener('click', showPotential);
 
     function addNote() {
       const input = document.getElementById('noteInput');
