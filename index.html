@@ -152,10 +152,14 @@
 
   /* ---------- Direction / phase tracker ---------- */
   .card {
+    --card-pad-x: 22px;
+    --card-pad-y: 20px;
+    --title-bar-bg: #1e5fa8;
+    position: relative;
     background: var(--surface-1);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px 22px;
+    padding: var(--card-pad-y) var(--card-pad-x);
     box-shadow: 0 1px 3px rgba(11,11,11,0.03);
   }
   .section-title {
@@ -163,8 +167,11 @@
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--series-blue);
-    margin: 0 0 14px;
+    color: #fff;
+    background: var(--title-bar-bg);
+    margin: calc(-1 * var(--card-pad-y)) calc(-1 * var(--card-pad-x)) 14px;
+    padding: 10px var(--card-pad-x);
+    border-radius: var(--radius) var(--radius) 0 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -172,9 +179,9 @@
   .section-title .count {
     font-size: 11px;
     font-weight: 700;
-    color: var(--text-secondary);
-    background: var(--surface-2);
-    border: 1px solid var(--border);
+    color: #fff;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
     border-radius: 999px;
     padding: 1px 8px;
   }
@@ -189,11 +196,13 @@
 
   /* ---------- Phase status list (independent of tracks) ---------- */
   .phase-status-card {
+    --card-pad-x: 14px;
+    --card-pad-y: 12px;
     flex: 0 0 260px;
     margin-bottom: 0;
-    padding: 12px 14px;
+    padding: var(--card-pad-y) var(--card-pad-x);
   }
-  .phase-status-card .section-title { font-size: 12px; margin-bottom: 8px; }
+  .phase-status-card .section-title { font-size: 12px; padding-top: 8px; padding-bottom: 8px; margin-bottom: 8px; }
   .ps-item {
     display: flex;
     align-items: flex-start;
@@ -239,8 +248,12 @@
   .ps-item.state-pending .ps-sub { color: var(--status-warning); font-weight: 600; }
 
   /* ---------- Financial summary (compact) ---------- */
-  .fin-card { padding: 14px 16px; }
-  .fin-card .section-title { font-size: 12.5px; margin-bottom: 10px; }
+  .fin-card {
+    --card-pad-x: 16px;
+    --card-pad-y: 14px;
+    padding: var(--card-pad-y) var(--card-pad-x);
+  }
+  .fin-card .section-title { font-size: 12.5px; padding-top: 8px; padding-bottom: 8px; margin-bottom: 10px; }
   .fin-total {
     font-size: 15px;
     font-weight: 700;
@@ -487,7 +500,12 @@
   }
 
   /* ---------- Image carousel ---------- */
-  .carousel-card { margin-bottom: 20px; padding: 16px; }
+  .carousel-card {
+    --card-pad-x: 16px;
+    --card-pad-y: 16px;
+    margin-bottom: 20px;
+    padding: var(--card-pad-y) var(--card-pad-x);
+  }
   .carousel { position: relative; }
   .carousel-viewport {
     position: relative;
