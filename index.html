@@ -155,9 +155,15 @@
     padding: 1px 8px;
   }
 
-  .direction-card { margin-bottom: 20px; }
+  .direction-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .direction-card { flex: 1; margin-bottom: 0; min-width: 0; }
 
-  /* ---------- Phase status list (independent of tracks; lives in the header) ---------- */
+  /* ---------- Phase status list (independent of tracks) ---------- */
   .phase-status-card {
     flex: 0 0 260px;
     margin-bottom: 0;
@@ -604,6 +610,7 @@
   @media (max-width: 880px) {
     .grid { grid-template-columns: 1fr; }
     .board-row { grid-template-columns: 1fr; }
+    .direction-row { flex-wrap: wrap; }
     .phase-status-card { flex-basis: 100%; }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
     .carousel-viewport { aspect-ratio: 16 / 18; }
@@ -629,19 +636,6 @@
       <p id="pdTagline">Single view of where the project is headed, what's moving, what needs attention, and what's due next.</p>
     </div>
 
-    <!-- Phase status list (independent delivery phases, not tied to the tracks) -->
-    <div class="card phase-status-card">
-      <div class="section-title">Phase Status</div>
-      <div id="pdPhaseStatus">
-        <div class="ps-item state-done"><span class="ps-dot state-done"></span><div class="ps-item-body"><span class="ps-name">Kickoff</span><span class="ps-sub">Done</span></div></div>
-        <div class="ps-item state-done"><span class="ps-dot state-done"></span><div class="ps-item-body"><span class="ps-name">Scoping</span><span class="ps-sub">Done</span></div></div>
-        <div class="ps-item state-current"><span class="ps-dot state-current"></span><div class="ps-item-body"><span class="ps-name">Build</span><span class="ps-sub">In progress</span></div></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Internal QA</span><span class="ps-sub">Not started</span></div></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Stakeholder review</span><span class="ps-sub">Not started</span></div></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Ship</span><span class="ps-sub">Not started</span></div></div>
-      </div>
-    </div>
-
     <div class="meta-block">
       <div id="pdMetaUpdated">Last updated: Jul 3, 2026 · 9:12 AM</div>
       <div id="pdMetaOwner">Owner: Ivan Zepeda</div>
@@ -649,6 +643,7 @@
     </div>
   </header>
 
+  <div class="direction-row">
   <!-- Project path / direction -->
   <div class="card direction-card">
     <div class="section-title">Project Direction</div>
@@ -717,6 +712,20 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Phase status list (independent delivery phases, not tied to the tracks) -->
+  <div class="card phase-status-card">
+    <div class="section-title">Phase Status</div>
+    <div id="pdPhaseStatus">
+      <div class="ps-item state-done"><span class="ps-dot state-done"></span><div class="ps-item-body"><span class="ps-name">Kickoff</span><span class="ps-sub">Done</span></div></div>
+      <div class="ps-item state-done"><span class="ps-dot state-done"></span><div class="ps-item-body"><span class="ps-name">Scoping</span><span class="ps-sub">Done</span></div></div>
+      <div class="ps-item state-current"><span class="ps-dot state-current"></span><div class="ps-item-body"><span class="ps-name">Build</span><span class="ps-sub">In progress</span></div></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Internal QA</span><span class="ps-sub">Not started</span></div></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Stakeholder review</span><span class="ps-sub">Not started</span></div></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><div class="ps-item-body"><span class="ps-name">Ship</span><span class="ps-sub">Not started</span></div></div>
+    </div>
+  </div>
   </div>
 
   <div class="grid board-row">
@@ -1087,6 +1096,36 @@
     </div>
   </div>
 
+      <!-- Financial: billed vs total by phase -->
+      <div class="card fin-card">
+        <div class="section-title">Financial — Billed vs Total by Phase</div>
+        <div id="pdFinancial">
+          <div class="fin-total">$104,000 <span class="fin-total-sub">billed of $240,000 total</span></div>
+          <div class="fin-list">
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Discovery</span><span class="fin-amounts">$18,000 / $18,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:100%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Design</span><span class="fin-amounts">$32,000 / $32,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:100%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Build</span><span class="fin-amounts">$54,000 / $90,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:60%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">Beta</span><span class="fin-amounts">$0 / $40,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:0%;"></div></div>
+            </div>
+            <div class="fin-item">
+              <div class="fin-item-head"><span class="fin-phase">GA Launch</span><span class="fin-amounts">$0 / $60,000</span></div>
+              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:0%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Resources & links -->
       <div class="card">
         <div class="section-title">Resources &amp; Links</div>
@@ -1136,36 +1175,6 @@
           </div>
           <span class="link-arrow">↗</span>
         </a>
-        </div>
-      </div>
-
-      <!-- Financial: billed vs total by phase -->
-      <div class="card fin-card">
-        <div class="section-title">Financial — Billed vs Total by Phase</div>
-        <div id="pdFinancial">
-          <div class="fin-total">$104,000 <span class="fin-total-sub">billed of $240,000 total</span></div>
-          <div class="fin-list">
-            <div class="fin-item">
-              <div class="fin-item-head"><span class="fin-phase">Discovery</span><span class="fin-amounts">$18,000 / $18,000</span></div>
-              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:100%;"></div></div>
-            </div>
-            <div class="fin-item">
-              <div class="fin-item-head"><span class="fin-phase">Design</span><span class="fin-amounts">$32,000 / $32,000</span></div>
-              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:100%;"></div></div>
-            </div>
-            <div class="fin-item">
-              <div class="fin-item-head"><span class="fin-phase">Build</span><span class="fin-amounts">$54,000 / $90,000</span></div>
-              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:60%;"></div></div>
-            </div>
-            <div class="fin-item">
-              <div class="fin-item-head"><span class="fin-phase">Beta</span><span class="fin-amounts">$0 / $40,000</span></div>
-              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:0%;"></div></div>
-            </div>
-            <div class="fin-item">
-              <div class="fin-item-head"><span class="fin-phase">GA Launch</span><span class="fin-amounts">$0 / $60,000</span></div>
-              <div class="fin-bar-track"><div class="fin-bar-fill" style="width:0%;"></div></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
