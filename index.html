@@ -151,23 +151,15 @@
     padding: 1px 8px;
   }
 
-  .direction-card { margin-bottom: 20px; }
+  .direction-row {
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .direction-card { margin-bottom: 0; }
 
-  /* ---------- Phase status list ---------- */
-  .phase-status-card { margin-bottom: 20px; }
-  .phase-status-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-  }
-  .ps-track-label {
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
+  /* ---------- Phase status list (independent of tracks) ---------- */
+  .phase-status-card { margin-bottom: 0; }
   .ps-item {
     display: flex;
     align-items: center;
@@ -248,6 +240,43 @@
   }
 
   /* ---------- Quick notes ---------- */
+  .note-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    margin-bottom: 14px;
+  }
+  .note-input {
+    flex: 1;
+    resize: none;
+    min-height: 36px;
+    max-height: 100px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 12.5px;
+    line-height: 1.4;
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
+  .note-input:focus {
+    outline: none;
+    border-color: var(--series-blue);
+  }
+  .note-add-btn {
+    flex-shrink: 0;
+    height: 36px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--series-blue);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .note-add-btn:hover { opacity: 0.9; }
   .note-item {
     display: flex;
     gap: 10px;
@@ -617,9 +646,9 @@
   @media (max-width: 880px) {
     .grid { grid-template-columns: 1fr; }
     .board-row { grid-template-columns: 1fr; }
+    .direction-row { grid-template-columns: 1fr; }
     .phase-track { grid-template-columns: repeat(5, minmax(70px, 1fr)); overflow-x: auto; }
     .carousel-viewport { aspect-ratio: 16 / 9; }
-    .phase-status-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
     .kanban-board { grid-template-columns: 1fr; }
@@ -648,6 +677,7 @@
     </div>
   </header>
 
+  <div class="grid direction-row">
   <!-- Project path / direction -->
   <div class="card direction-card">
     <div class="section-title">Project Direction</div>
@@ -718,27 +748,18 @@
     </div>
   </div>
 
-  <!-- Phase status list -->
+  <!-- Phase status list (independent delivery phases, not tied to the tracks) -->
   <div class="card phase-status-card">
     <div class="section-title">Phase Status</div>
-    <div class="phase-status-grid" id="pdPhaseStatus">
-      <div class="phase-status-col">
-        <div class="ps-track-label">Track 1 — Self-serve onboarding</div>
-        <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Discovery</span><span class="ps-sub">Completed Apr 2026</span></div>
-        <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Design</span><span class="ps-sub">Completed May 2026</span></div>
-        <div class="ps-item state-current"><span class="ps-dot state-current"></span><span class="ps-name">Build</span><span class="ps-sub">In progress · 62%</span></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Beta</span><span class="ps-sub">Target Aug 2026</span></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">GA Launch</span><span class="ps-sub">Target Oct 2026</span></div>
-      </div>
-      <div class="phase-status-col">
-        <div class="ps-track-label">Track 2 — Team accounts expansion</div>
-        <div class="ps-item state-pending"><span class="ps-dot state-pending"></span><span class="ps-name">Planning</span><span class="ps-sub">Pending direction</span></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Design</span><span class="ps-sub">Not started</span></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Build</span><span class="ps-sub">Not started</span></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Rollout</span><span class="ps-sub">Not started</span></div>
-        <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Scale</span><span class="ps-sub">Not started</span></div>
-      </div>
+    <div id="pdPhaseStatus">
+      <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Kickoff</span><span class="ps-sub">Done</span></div>
+      <div class="ps-item state-done"><span class="ps-dot state-done"></span><span class="ps-name">Scoping</span><span class="ps-sub">Done</span></div>
+      <div class="ps-item state-current"><span class="ps-dot state-current"></span><span class="ps-name">Build</span><span class="ps-sub">In progress</span></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Internal QA</span><span class="ps-sub">Not started</span></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Stakeholder review</span><span class="ps-sub">Not started</span></div>
+      <div class="ps-item state-upcoming"><span class="ps-dot state-upcoming"></span><span class="ps-name">Ship</span><span class="ps-sub">Not started</span></div>
     </div>
+  </div>
   </div>
 
   <div class="grid board-row">
@@ -1203,6 +1224,10 @@
       <!-- Quick notes -->
       <div class="card">
         <div class="section-title">Quick Notes</div>
+        <div class="note-input-row">
+          <textarea id="noteInput" class="note-input" rows="1" placeholder="Type a quick note and press Enter…"></textarea>
+          <button id="addNoteBtn" class="note-add-btn" type="button">Add</button>
+        </div>
         <div id="pdNotes">
           <div class="note-item">
             <div class="note-bar"></div>
@@ -1355,6 +1380,14 @@
           { phase: "Beta", billed: 0, total: 40000 },
           { phase: "GA Launch", billed: 0, total: 60000 }
         ],
+        phaseStatus: [
+          { state: "done", name: "Kickoff", sub: "Done" },
+          { state: "done", name: "Scoping", sub: "Done" },
+          { state: "current", name: "Build", sub: "In progress" },
+          { state: "upcoming", name: "Internal QA", sub: "Not started" },
+          { state: "upcoming", name: "Stakeholder review", sub: "Not started" },
+          { state: "upcoming", name: "Ship", sub: "Not started" }
+        ],
         notes: [
           { text: "Reminder: confirm team-account pricing with Finance before it's referenced in onboarding copy.", author: "Ivan Z.", date: "Jul 2" },
           { text: "Beta invite batch size may need to shrink if support hiring slips past Aug 1.", author: "Maya R.", date: "Jul 1" },
@@ -1439,6 +1472,14 @@
           { phase: "Dual-run", billed: 0, total: 50000 },
           { phase: "Cutover", billed: 0, total: 35000 }
         ],
+        phaseStatus: [
+          { state: "done", name: "Kickoff", sub: "Done" },
+          { state: "done", name: "Vendor review", sub: "Done" },
+          { state: "current", name: "Build", sub: "In progress" },
+          { state: "upcoming", name: "Internal QA", sub: "Not started" },
+          { state: "upcoming", name: "Finance sign-off", sub: "Not started" },
+          { state: "upcoming", name: "Ship", sub: "Not started" }
+        ],
         notes: [
           { text: "Vendor confirmed API key provisioning ETA of Jul 8 — watch closely.", author: "Marcus O.", date: "Jul 3" },
           { text: "Consider a 2-week buffer before full cutover given dunning email issues.", author: "Priya N.", date: "Jul 2" },
@@ -1522,6 +1563,14 @@
           { phase: "Build", billed: 60000, total: 80000 },
           { phase: "App review", billed: 0, total: 20000 },
           { phase: "Relaunch", billed: 0, total: 30000 }
+        ],
+        phaseStatus: [
+          { state: "done", name: "Kickoff", sub: "Done" },
+          { state: "done", name: "Design review", sub: "Done" },
+          { state: "current", name: "Build", sub: "In progress" },
+          { state: "current", name: "Internal QA", sub: "In progress" },
+          { state: "upcoming", name: "App Store review", sub: "Not started" },
+          { state: "upcoming", name: "Ship", sub: "Not started" }
         ],
         notes: [
           { text: "Apple's guideline change may also affect the tablet track — flag early.", author: "Chen W.", date: "Jul 3" },
@@ -1612,12 +1661,6 @@
         '<span class="ps-sub">' + ph.sub + '</span>' +
         '</div>';
     }
-    function psColHtml(label, phases) {
-      return '<div class="phase-status-col">' +
-        '<div class="ps-track-label">' + label + '</div>' +
-        phases.map(psItemHtml).join('') +
-        '</div>';
-    }
 
     function fmtMoney(n) {
       return '$' + n.toLocaleString('en-US');
@@ -1673,9 +1716,9 @@
       document.getElementById('pdResources').innerHTML = p.resources.map(resourceHtml).join('');
       document.getElementById('pdFinancial').innerHTML = financialHtml(p.financials);
       document.getElementById('pdNotes').innerHTML = p.notes.map(noteHtml).join('');
+      document.getElementById('noteInput').value = '';
 
-      document.getElementById('pdPhaseStatus').innerHTML =
-        psColHtml(p.track1.label, p.track1.phases) + psColHtml(p.track2.label, p.track2.phases);
+      document.getElementById('pdPhaseStatus').innerHTML = p.phaseStatus.map(psItemHtml).join('');
 
       const captionNodes = document.querySelectorAll('#carouselTrack .carousel-slide');
       captionNodes.forEach((slide, i) => {
@@ -1697,6 +1740,27 @@
     document.getElementById('nextProject').addEventListener('click', () => {
       current = (current + 1) % PROJECTS.length;
       render(current);
+    });
+
+    function addNote() {
+      const input = document.getElementById('noteInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      PROJECTS[current].notes.unshift({ text: text, author: 'You', date: dateStr });
+      input.value = '';
+      document.getElementById('pdNotes').innerHTML = PROJECTS[current].notes.map(noteHtml).join('');
+    }
+    document.getElementById('addNoteBtn').addEventListener('click', addNote);
+    document.getElementById('noteInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        addNote();
+      }
+    });
+    document.getElementById('noteInput').addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
     });
 
     render(current);
