@@ -13,7 +13,7 @@
     --text-secondary: #52514e;
     --text-muted:     #898781;
     --gridline:       #e1e0d9;
-    --border:         rgba(11,11,11,0.10);
+    --border:         rgba(11,11,11,0.08);
     --border-strong:  rgba(11,11,11,0.16);
 
     --series-blue:    #2a78d6;
@@ -133,6 +133,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px 22px;
+    box-shadow: 0 1px 3px rgba(11,11,11,0.03);
   }
   .section-title {
     font-size: 12px;
@@ -306,7 +307,7 @@
     flex-shrink: 0;
     width: 3px;
     border-radius: 2px;
-    background: var(--series-yellow);
+    background: var(--series-blue);
   }
   .note-body { flex: 1; }
   .note-text {
@@ -584,6 +585,7 @@
     flex-shrink: 0;
     width: 26px; height: 26px;
     border-radius: 7px;
+    background: var(--series-blue);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1132,7 +1134,7 @@
 
         <div id="pdResources">
         <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-blue);">PR</span>
+          <span class="link-icon">PR</span>
           <div class="link-body">
             <div class="link-title">Product requirements doc</div>
             <div class="link-url">docs.google.com/onboarding-prd</div>
@@ -1141,7 +1143,7 @@
         </a>
 
         <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-violet);">FG</span>
+          <span class="link-icon">FG</span>
           <div class="link-body">
             <div class="link-title">Figma — onboarding &amp; beta flows</div>
             <div class="link-url">figma.com/file/atlas-onboarding</div>
@@ -1150,7 +1152,7 @@
         </a>
 
         <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-aqua);">GH</span>
+          <span class="link-icon">GH</span>
           <div class="link-body">
             <div class="link-title">Repository — atlas-onboarding</div>
             <div class="link-url">github.com/ivanzep/atlas-onboarding</div>
@@ -1159,7 +1161,7 @@
         </a>
 
         <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-orange);">AN</span>
+          <span class="link-icon">AN</span>
           <div class="link-body">
             <div class="link-title">Analytics — beta funnel dashboard</div>
             <div class="link-url">amplitude.com/atlas/beta-funnel</div>
@@ -1168,7 +1170,7 @@
         </a>
 
         <a class="link-item" href="#" target="_blank" rel="noopener">
-          <span class="link-icon" style="background:var(--series-magenta);">SL</span>
+          <span class="link-icon">SL</span>
           <div class="link-body">
             <div class="link-title">Slack — #atlas-onboarding</div>
             <div class="link-url">app.slack.com/atlas-onboarding</div>
@@ -1560,7 +1562,7 @@
     }
     function resourceHtml(r) {
       return '<a class="link-item" href="#" target="_blank" rel="noopener">' +
-        '<span class="link-icon" style="background:var(' + r.color + ');">' + r.initials + '</span>' +
+        '<span class="link-icon">' + r.initials + '</span>' +
         '<div class="link-body">' +
         '<div class="link-title">' + r.title + '</div>' +
         '<div class="link-url">' + r.url + '</div>' +
