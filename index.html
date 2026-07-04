@@ -357,7 +357,6 @@
     align-items: start;
   }
   .col { display: flex; flex-direction: column; gap: 20px; }
-  .info-grid { grid-template-columns: 1fr 1fr; }
   .board-row { grid-template-columns: 1fr 1fr; margin-bottom: 20px; }
 
   .tag {
@@ -564,6 +563,7 @@
   </div>
 
   <div class="grid board-row">
+    <div class="col">
   <!-- Kanban board -->
   <div class="card board-card">
     <div class="section-title">Board</div>
@@ -733,6 +733,37 @@
 
     </div>
   </div>
+    </div>
+
+    <div class="col">
+      <!-- Open questions -->
+      <div class="card">
+        <div class="section-title">Open Questions</div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">Do team accounts share billing with individual accounts, or bill separately?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Finance + Product</span> · by Jul 11</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">Is a Salesforce connector required for beta, or can it ship post-GA?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Ivan Z.</span> · by Jul 8</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <span class="q-mark">?</span>
+          <div class="q-body">
+            <div class="q-title">What's the rollback plan if load testing fails on Jul 25?</div>
+            <div class="q-foot">Needs: <span class="q-owner">Dan K.</span> · by Jul 20</div>
+          </div>
+        </div>
+      </div>
 
   <!-- Image carousel -->
   <div class="card carousel-card">
@@ -906,46 +937,6 @@
     </div>
   </div>
 
-  </div>
-
-  <div class="grid info-grid">
-    <!-- LEFT COLUMN -->
-    <div class="col">
-
-      <!-- Open questions -->
-      <div class="card">
-        <div class="section-title">Open Questions</div>
-
-        <div class="q-item">
-          <span class="q-mark">?</span>
-          <div class="q-body">
-            <div class="q-title">Do team accounts share billing with individual accounts, or bill separately?</div>
-            <div class="q-foot">Needs: <span class="q-owner">Finance + Product</span> · by Jul 11</div>
-          </div>
-        </div>
-
-        <div class="q-item">
-          <span class="q-mark">?</span>
-          <div class="q-body">
-            <div class="q-title">Is a Salesforce connector required for beta, or can it ship post-GA?</div>
-            <div class="q-foot">Needs: <span class="q-owner">Ivan Z.</span> · by Jul 8</div>
-          </div>
-        </div>
-
-        <div class="q-item">
-          <span class="q-mark">?</span>
-          <div class="q-body">
-            <div class="q-title">What's the rollback plan if load testing fails on Jul 25?</div>
-            <div class="q-foot">Needs: <span class="q-owner">Dan K.</span> · by Jul 20</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div class="col">
-
       <!-- Resources & links -->
       <div class="card">
         <div class="section-title">Resources &amp; Links</div>
@@ -995,7 +986,6 @@
           <span class="link-arrow">↗</span>
         </a>
       </div>
-
     </div>
   </div>
 
