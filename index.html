@@ -644,7 +644,14 @@
     .kanban-board { grid-template-columns: 1fr; }
   }
 
+  #printRoot { display: none; }
+
   @media print {
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
     .export-btn,
     .project-switcher,
     .carousel-btn,
@@ -652,9 +659,12 @@
     .note-input-row,
     .mockup-flag,
     .switch-count { display: none !important; }
-    body { background: #fff; }
-    .card { box-shadow: none; break-inside: avoid; }
+    .card { break-inside: avoid; }
     .board-row, .direction-row, .grid { break-inside: avoid; }
+
+    body.printing-all > .wrap { display: none; }
+    body.printing-all #printRoot { display: block; }
+    #printRoot .print-page + .print-page { page-break-before: always; }
   }
 </style>
 </head>
@@ -1229,6 +1239,7 @@
   </div>
 
 </div>
+<div id="printRoot"></div>
 <script>
   (function () {
     const track = document.getElementById('carouselTrack');
@@ -1654,6 +1665,116 @@
         '</div>';
     }
 
+    // ---- Static full-page markup for "Export PDF" (one page per project) ----
+    function trackBlockHtml(track) {
+      return '<div class="track">' +
+        '<div class="track-label">' + track.label + '</div>' +
+        '<div class="phase-track">' + track.phases.map(phaseHtml).join('') + '</div>' +
+        '</div>';
+    }
+    function directionCardHtml(p) {
+      return '<div class="card direction-card">' +
+        '<div class="section-title">Project Direction</div>' +
+        '<p class="direction-goal"><strong>North star:</strong> ' + p.northStar + '</p>' +
+        trackBlockHtml(p.track1) + trackBlockHtml(p.track2) +
+        '</div>';
+    }
+    function phaseStatusCardHtml(p) {
+      return '<div class="card phase-status-card">' +
+        '<div class="section-title">Phase Status</div>' +
+        '<div>' + p.phaseStatus.map(psItemHtml).join('') + '</div>' +
+        '</div>';
+    }
+    function boardCardHtml(p) {
+      const b = p.board;
+      return '<div class="card board-card">' +
+        '<div class="section-title">Board</div>' +
+        '<div class="kanban-board">' +
+        columnHtml('--series-blue', 'In Progress', b.progress.count, b.progress.items.map(progressCardHtml).join('')) +
+        columnHtml('--status-critical', 'High Priority', b.priority.count, b.priority.items.map(priorityCardHtml).join('')) +
+        columnHtml('--status-warning', 'Things to Watch', b.watch.count, b.watch.items.map(watchCardHtml).join('')) +
+        columnHtml('--series-violet', 'Upcoming', b.upcoming.count, b.upcoming.items.map(upcomingCardHtml).join('')) +
+        '</div></div>';
+    }
+    function notesCardHtml(p) {
+      return '<div class="card">' +
+        '<div class="section-title">Quick Notes</div>' +
+        '<div>' + p.notes.map(noteHtml).join('') + '</div>' +
+        '</div>';
+    }
+    function questionsCardHtml(p) {
+      return '<div class="card">' +
+        '<div class="section-title">Open Questions</div>' +
+        '<div>' + p.questions.map(questionHtml).join('') + '</div>' +
+        '</div>';
+    }
+    function resourcesCardHtml(p) {
+      return '<div class="card">' +
+        '<div class="section-title">Resources &amp; Links</div>' +
+        '<div>' + p.resources.map(resourceHtml).join('') + '</div>' +
+        '</div>';
+    }
+    function financialCardHtml(p) {
+      return '<div class="card fin-card">' +
+        '<div class="section-title">Financial — Billed vs Total by Phase</div>' +
+        financialHtml(p.financials) +
+        '</div>';
+    }
+    function snapshotSlideMarkup(p) {
+      const slides = document.querySelectorAll('#carouselTrack .carousel-slide');
+      const slide = slides[0];
+      if (!slide) return '';
+      const snap = p.snapshots[0];
+      const titleEl = slide.querySelector('.cc-title');
+      const subEl = slide.querySelector('.cc-sub');
+      const prevTitle = titleEl.textContent;
+      const prevSub = subEl.textContent;
+      if (snap) {
+        titleEl.textContent = snap.title;
+        subEl.textContent = snap.sub;
+      }
+      const html = slide.outerHTML;
+      titleEl.textContent = prevTitle;
+      subEl.textContent = prevSub;
+      return html;
+    }
+    function snapshotsCardHtml(p) {
+      return '<div class="card carousel-card">' +
+        '<div class="section-title">Project Snapshots</div>' +
+        '<div class="carousel"><div class="carousel-viewport">' + snapshotSlideMarkup(p) + '</div></div>' +
+        '</div>';
+    }
+    function projectPageHtml(p) {
+      return '<div class="wrap print-page">' +
+        '<header class="top">' +
+        '<div class="title-block">' +
+        '<h1>' + p.name + '</h1>' +
+        '<p>' + p.tagline + '</p>' +
+        '</div>' +
+        '<div class="meta-block">' +
+        '<div>' + p.meta.updated + '</div>' +
+        '<div>' + p.meta.owner + '</div>' +
+        '<div>' + p.meta.sprint + '</div>' +
+        '</div>' +
+        '</header>' +
+        '<div class="direction-row">' + directionCardHtml(p) + phaseStatusCardHtml(p) + '</div>' +
+        '<div class="grid board-row">' +
+        '<div class="col">' + boardCardHtml(p) + notesCardHtml(p) + '</div>' +
+        '<div class="col">' + questionsCardHtml(p) + snapshotsCardHtml(p) + financialCardHtml(p) + resourcesCardHtml(p) + '</div>' +
+        '</div>' +
+        '</div>';
+    }
+    function exportAllProjectsPdf() {
+      const printRoot = document.getElementById('printRoot');
+      printRoot.innerHTML = PROJECTS.map((p) => projectPageHtml(p)).join('');
+      document.body.classList.add('printing-all');
+      window.print();
+    }
+    window.addEventListener('afterprint', () => {
+      document.body.classList.remove('printing-all');
+      document.getElementById('printRoot').innerHTML = '';
+    });
+
     function render(idx) {
       const p = PROJECTS[idx];
 
@@ -1728,9 +1849,7 @@
       this.style.height = Math.min(this.scrollHeight, 100) + 'px';
     });
 
-    document.getElementById('exportPdfBtn').addEventListener('click', () => {
-      window.print();
-    });
+    document.getElementById('exportPdfBtn').addEventListener('click', exportAllProjectsPdf);
 
     render(current);
   })();
